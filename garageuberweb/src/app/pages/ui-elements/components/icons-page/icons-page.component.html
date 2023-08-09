@@ -1,0 +1,138 @@
+<app-layout>
+  <mat-toolbar class="page-header" role="heading">
+    <h1>Add Suppliers</h1>
+    <button mat-flat-button color="warn">Actions</button>
+  </mat-toolbar>
+
+  <mat-card class="icons-wrapper">
+    <mat-tab-group>
+      <mat-tab label="Add New Suppliers">
+        <div class="add-products">
+          <form #addForm="ngForm" (ngSubmit)="onAddSupplier(addForm)">
+          <mat-form-field appearance="fill">
+           <mat-label for="name">Enter suppliers name</mat-label>
+           <input matInput type="text" ngModel name="name" class="form-control" id="name" placeholder="John Doe"  required>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label for="email">Enter suppliers email</mat-label>
+            <input matInput type="email" ngModel name="email" class="form-control" id="email" placeholder="john@doe.com"  required>
+           </mat-form-field>
+           <mat-form-field appearance="fill">
+            <mat-label for="phone">Enter suppliers phone</mat-label>
+            <input matInput type="text" ngModel name="phone" class="form-control" id="phone" placeholder="+254709765694"  required>
+           </mat-form-field>
+           <mat-form-field appearance="fill">
+            <mat-label for="image">Enter suppliers image url</mat-label>
+            <input matInput type="text" ngModel name="imageUrl" class="form-control" id="imageUrl" placeholder="" >
+           </mat-form-field>
+           <mat-form-field appearance="fill">
+            <mat-label for="location">Enter suppliers pickup station</mat-label>
+            <input matInput type="text" ngModel name="location" class="form-control" id="location" placeholder="Kisumu" >
+           </mat-form-field>
+
+           <!-- <mat-form-field appearance="fill">
+            <mat-label>select suppliers pickup sation</mat-label>
+            <mat-select [formControl]="deliveryLocation" required>
+              <mat-option>--</mat-option>
+              <mat-option *ngFor="let locate of locators" [value]="locate">
+                {{locate.location}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="deliveryLocation.hasError('required')">Please select a delivery location</mat-error>
+            <mat-hint> pin: <a href=""> {{deliveryLocation.value?.pin}} </a></mat-hint>
+          </mat-form-field> <br> -->
+
+          <!-- <button mat-icon-button color="primary" aria-label="Example icon button with a home icon">
+            <mat-icon>ballot</mat-icon> Save
+          </button> -->
+          <button class="save" mat-raised-button color="primary" type="submit">Save</button>
+          </form>
+      </div>
+
+        <!-- <div class="icons-content">
+          <div *ngFor="let iconName of materialIcons" class="icons-content__icon-wrapper">
+            <mat-icon>{{toShakeCase(iconName)}}</mat-icon>
+            <span class="icons-content__icon-title">{{iconName}}</span>
+          </div>
+        </div> -->
+      </mat-tab>
+
+      <mat-tab label="All Suppliers Report">
+        <table>
+          <tr><th>Supplier Name</th><th>Supplier ID.</th><th>Supplier Email</th><th>Supplier Location</th><th>Supplier Phone</th>
+          </tr>
+          <tr *ngFor= "let supplier of suppliers">
+            <td>{{supplier?.name}}</td><td>{{supplier?.id}}</td><td>{{supplier?.email}}</td><td>{{supplier?.location}}</td><td>{{supplier?.phone}}</td>
+          </tr>
+        </table>
+        <!-- <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+          ID Column
+          <ng-container matColumnDef="id" >
+            <th mat-header-cell *matHeaderCellDef> ID. </th>
+            <span>
+            <td mat-cell *matCellDef="let element" > Someth</td>
+          </span>
+          </ng-container>
+
+          Name Column
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+          </ng-container>
+
+          Total Orders Made Column
+          <ng-container matColumnDef="total_orders">
+            <th mat-header-cell *matHeaderCellDef> Total Orders </th>
+            <td mat-cell *matCellDef="let element"> {{element.total_orders}} </td>
+          </ng-container>
+
+          Route Column
+          <ng-container matColumnDef="route">
+            <th mat-header-cell *matHeaderCellDef> Route </th>
+            <td mat-cell *matCellDef="let element"> {{element.route}} </td>
+          </ng-container>
+
+          Actions Column
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Actions </th>
+            <td mat-cell *matCellDef="let element"><a href=""> <mat-icon>view_week</mat-icon> {{element.actions}} </a> </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table> -->
+
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card>
+
+
+
+
+
+
+<!--
+  <mat-card class="icons-wrapper">
+    <mat-tab-group>
+      <mat-tab label="Material Icons">
+        <div class="icons-content">
+          <div *ngFor="let iconName of materialIcons" class="icons-content__icon-wrapper">
+            <mat-icon>{{toShakeCase(iconName)}}</mat-icon>
+            <span class="icons-content__icon-title">{{iconName}}</span>
+          </div>
+        </div>
+      </mat-tab>
+
+      <mat-tab label="Font Awesome">
+        <div class="icons-content">
+          <div *ngFor="let iconName of fontAwesomeIcons" class="icons-content__icon-wrapper">
+            <mat-icon fontSet="fa fa-fs" fontIcon="{{toFontAwesomeText(iconName)}}"></mat-icon>
+            <span class="icons-content__icon-title">{{toFontAwesomeText(iconName)}}</span>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card> -->
+
+  <app-footer></app-footer>
+</app-layout>

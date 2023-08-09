@@ -1,0 +1,282 @@
+<div >
+
+    <div id="main-wrapper">
+      <aside class="left-sidebar">
+          <!-- Sidebar scroll-->
+          <div class="scroll-sidebar">
+              <!-- Sidebar navigation-->
+              <nav class="sidebar-nav">
+                <ul id="sidebarnav">
+                    <li>
+                      <a routerLink="{{routes.GARAGE_HOME}}" routerLinkActive="active" class="waves-effect"><i class="fa fa-delicious m-r-10" aria-hidden="true"></i>Dashboard</a>
+                    </li>
+                    <li>
+                        <a routerLink="{{routes.GARAGE_PROFILE}}" routerLinkActive="active" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Profile</a>
+                    </li>
+                    <li>
+                        <a routerLink="{{routes.GARAGE_ACTIVE_SERVICES}}" routerLinkActive="active" class="waves-effect"><i class="fa fa-table m-r-10" aria-hidden="true"></i>Active Services</a>
+                    </li>
+                    <li>
+                        <a routerLink="{{routes.GARAGE_REVIEW_PAGE}}" routerLinkActive="active" class="waves-effect"><i class="fa fa-gratipay m-r-10" aria-hidden="true"></i>Reviews</a>
+                    </li>
+                    <li>
+                        <a href="https://www.google.com/maps/@-0.4871896,37.1151359,15z" routerLinkActive="active" class="waves-effect"><i class="fa fa-globe m-r-10" aria-hidden="true"></i>Google Map</a>
+                    </li>
+                    <li>
+                        <a routerLink="{{routes.MANAGE_USER_REQUESTS}}" routerLinkActive="active" class="waves-effect"><i class="fa fa-clock-o m-r-10" aria-hidden="true"></i>Manage Requests</a>
+                    </li>
+                    <li>
+                        <a href="pages-error-404.html" class="waves-effect"><i class="fa fa-info-circle m-r-10" aria-hidden="true"></i>Error 404</a>
+                    </li>
+                    <li>
+                      <a href="pages-error-404.html" class="waves-effect"><i class="fa fa-sign-out m-r-10" aria-hidden="true"></i>Sign Out</a>
+                  </li>
+
+                </ul>
+                <!-- <div class="text-center m-t-30">
+                    <a href="https://themewagon.com/themes/free-bootstrap-4-admin-dashboard-template/" class="btn btn-danger">Download Here</a>
+                </div> -->
+            </nav>
+
+              <!-- End Sidebar navigation -->
+          </div>
+          <!-- End Sidebar scroll-->
+      </aside>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>      <br/>
+      <br/>
+      <br/>
+      <div class="page-wrapper">
+          <div class="container-fluid">
+              <div class="row page-titles">
+                  <div class="col-md-6 col-8 align-self-center">
+                      <h3 class="text-themecolor m-b-0 m-t-0">Profile</h3>
+                      <ol class="breadcrumb">
+                          <li class="breadcrumb-item"><a routerLink="{{routes.GARAGE_HOME}}" routerLinkActive="active">Home</a> |</li>
+                          <li class="breadcrumb-item active ">Profile</li>
+                      </ol>
+                  </div>
+              </div>
+
+              <div class="row">
+                  <!-- Column -->
+                  <div class="col-lg-4 col-xlg-3 col-md-5">
+                      <div class="card" style="padding:1rem 0;" style="border: 0.001em dotted rebeccapurple;">
+                          <div class="card-block" *ngFor="let detail of garages" >
+                              <div class="m-t-30" *ngIf="detail.garageEmail === owner" style="line-height: 1rem;">
+                                 <img src="{{detail?.garageLogoImageURL}}" class="img-circle" style="margin-left: 40%;" width="150" />
+                                  <h4 class="card-title m-t-10 text-center"> {{detail?.garageName}} Garage Services</h4>
+                                  <h6 class="card-subtitle text-center"> Email: {{detail?.garageEmail}}</h6>
+                                  <h6 class="card-subtitle text-center"> Tel: {{detail?.garagePhone}}</h6>
+                                  <h6 class="card-subtitle text-center"> Location: {{detail?.garageLocation}}</h6>
+                                  <div class="row text-center justify-content-md-center">
+                                      <div class="col-4"><a href="javascript:void(0)" class="link"><i class="fa fa-user m-r-10"></i> <font class="font-medium">254</font></a></div>
+                                      <div class="col-4"><a href="javascript:void(0)" class="link"><i class="fa fa-truck m-r-10"></i> <font class="font-medium">54</font></a></div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <!-- Column -->
+                  <!-- Column -->
+                  <div class=" container col-lg-8 col-xlg-9 col-md-7"  id="main-container">
+                      <div class="card" style="border:  0.01em dotted rebeccapurple;">
+                          <div class="card-block" *ngFor="let detail of garages">
+                              <form class="form-horizontal form-material" *ngIf="detail.garageEmail === owner" >
+                                  <div class="form-group">
+                                      <label class="col-md-12">Company Name</label>
+                                      <div class="col-md-12">
+                                          <input type="text" placeholder="{{detail?.garageName}} Garage Services" disabled class="form-control form-control-line">
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label class="col-md-12">Mechanic's Name</label>
+                                    <div class="col-md-12">
+                                        <input type="text" placeholder="{{detail?.garageOwnerName}} Garage Services" disabled class="form-control form-control-line">
+                                    </div>
+                                </div>
+                                  <div class="form-group">
+                                      <label for="example-email" class="col-md-12">Email</label>
+                                      <div class="col-md-12">
+                                          <input type="email" placeholder="{{detail?.garageEmail}}" disabled class="form-control form-control-line" name="example-email" id="example-email">
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label class="col-md-12">Phone No</label>
+                                      <div class="col-md-12">
+                                          <input type="tel" placeholder="{{detail?.garagePhone}}" disabled class="form-control form-control-line">
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                    <label class="col-md-12">Location</label>
+                                    <div class="col-md-12">
+                                        <input type="text" placeholder="{{detail?.garageLocation}}" placeholder="{{detail?.garageLocation}}" disabled class="form-control form-control-line">
+                                    </div>
+                                </div>
+                                  <div class="form-group">
+                                      <label class="col-md-12">Services</label>
+                                      <div class="col-md-12">
+                                          <textarea rows="5"
+                                           placeholder="
+                                           {{detail?.service1}}         $.{{detail?.service1Charges}}
+                                           {{detail?.service1}}         $.{{detail?.service1Charges}}
+                                           {{detail?.service1}}         $.{{detail?.service1Charges}}
+                                           {{detail?.service1}}         $.{{detail?.service1Charges}}
+                                           {{detail?.service1}}         $.{{detail?.service1Charges}}
+
+                                           "
+
+                                          disabled class="form-control form-control-line"></textarea>
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <div class="col-sm-12">
+                                          <button (click)="onOpenModal(detail, 'edit')" class="btn btn-primary tooltips" data-placement="top" data-original-title="Edit" class="btn btn-success">Update Profile</button>
+                                      </div>
+                                  </div>
+                              </form>
+                          </div>
+                      </div>
+                  </div>
+                  <!-- Column -->
+              </div>
+              <!-- Row -->
+              <!-- ============================================================== -->
+              <!-- End PAge Content -->
+              <!-- ============================================================== -->
+          </div>
+          <footer class="footer text-center">
+            <app-footer></app-footer>
+          </footer>
+          <!-- ============================================================== -->
+          <!-- End footer -->
+          <!-- ============================================================== -->
+      </div>
+        <!-- Edit Modal -->
+  <div class="modal fade" id="updateGarageModal" tabindex="-1" role="dialog" aria-labelledby="productupdateGarageModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title" id="updateGarageModalLabel">Editing : {{editGarage?.garageName}} details for {{editGarage?.garageOwnerName}}</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+             </button>
+          </div>
+          <div class="modal-body">
+             <form #editForm="ngForm">
+                <div class="form-group">
+                   <label for="garageName">Garage Name</label>
+                   <input type="text" ngModel="{{editGarage?.garageName}}" name="garageName" class="form-control" id="garageName" aria-describedby="emailHelp" placeholder="Garage Name">
+                </div>
+                <input type="hidden" ngModel="{{editGarage?.id}}" name="id" class="form-control" id="id" placeholder="ID">
+                <input type="hidden" ngModel="{{editGarage?.garageCode}}" name="garageCode" class="form-control" id="garageCode" placeholder="Garage Code">
+                <div class="form-group">
+                  <label for="garageLocation">Mechanic Location</label>
+                  <input type="text" ngModel="{{editGarage?.garageLocation}}" name="garageLocation" class="form-control" id="garageLocation" placeholder="Garage Location">
+               </div>
+                <div class="form-group">
+                   <label for="garagePhone">Mechanic Service Phone Number / Helpline</label>
+                   <input type="tel" ngModel="{{editGarage?.garagePhone}}" name="garagePhone" class="form-control" id="garagePhone" placeholder="Garage Service Phone...">
+                </div>
+                <div class="form-group">
+                   <label for="garageEmail">Mechanic Service Email</label>
+                   <input type="email" ngModel="{{editGarage?.garageEmail}}" name="garageEmail" class="form-control" id="garageEmail" placeholder="Email...">
+                </div>
+                <div class="form-group">
+                   <label for="garageOwnerName">Mechanic Name</label>
+                   <input type="text" ngModel="{{editGarage?.garageOwnerName}}" name="garageOwnerName" class="form-control" id="garageOwnerName" name="garageOwnerName" placeholder="Owners Name...">
+                </div>
+                <div class="form-group">
+                   <label for="garageLogoImageURL">Logo Image URL</label>
+                   <input type="text" ngModel="{{editGarage?.garageLogoImageURL}}" name="garageLogoImageURL" class="form-control" id="garageLogoImageURL" placeholder="Logo image URL...">
+                </div>
+
+                <p style="font-weight: 500; text-decoration: underline;">List services the mechanic offers & their respective charges</p>
+
+            <div class="form-group">
+              <label for="service1">Service 1</label>
+              <input type="text" ngModel="{{editGarage?.service1}}" name="service1" class="form-control" id="service1" placeholder="Service 1" required>
+           </div>
+           <div class="form-group">
+            <label for="service1Charges">Service 1 Avarage Charges</label>
+            <input type="number" ngModel="{{editGarage?.service1Charges}}" min="0" name="service1Charges" class="form-control" id="service1Charges" placeholder="Service 1 Avarage Charges" required>
+         </div>
+
+         <div class="form-group">
+          <label for="service2">Service 2</label>
+          <input type="text" ngModel="{{editGarage?.service2}}" name="service2" class="form-control" id="service2" placeholder="Service 2" required>
+       </div>
+       <div class="form-group">
+        <label for="service2Charges">Service 2 Avarage Charges</label>
+        <input type="number" ngModel="{{editGarage?.service2Charges}}" min="0" name="service2Charges" class="form-control" id="service2Charges" placeholder="Service 2 Avarage Charges" required>
+     </div>
+
+         <div class="form-group">
+          <label for="service3">Service 3</label>
+          <input type="text" ngModel="{{editGarage?.service3}}" name="service3" class="form-control" id="service3" placeholder="Service 3" required>
+       </div>
+       <div class="form-group">
+        <label for="service3Charges">Service 3 Avarage Charges</label>
+        <input type="number" ngModel="{{editGarage?.service3Charges}}" min="0" name="service3Charges" class="form-control" id="service3Charges" placeholder="Service 3 Avarage Charges" required>
+     </div>
+
+         <div class="form-group">
+          <label for="service4">Service 4</label>
+          <input type="text" ngModel="{{editGarage?.service4}}" name="service4" class="form-control" id="service4" placeholder="Service 4" required>
+       </div>
+       <div class="form-group">
+        <label for="service4Charges">Service 4 Avarage Charges</label>
+        <input type="number" ngModel="{{editGarage?.service4Charges}}" min="0" name="service4Charges" class="form-control" id="service4Charges" placeholder="Service 4 Avarage Charges" required>
+     </div>
+
+         <div class="form-group">
+          <label for="service5">Service 5</label>
+          <input type="text" ngModel="{{editGarage?.service5}}" name="service5" class="form-control" id="service5" placeholder="Service 5" required>
+       </div>
+       <div class="form-group">
+        <label for="service5Charges">Service 5 Avarage Charges</label>
+        <input type="number" ngModel="{{editGarage?.service5Charges}}" min="0" name="service5Charges" class="form-control" id="service5Charges" placeholder="Service 5 Avarage Charges" required>
+     </div>
+                <div class="modal-footer">
+                   <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">Close</button>
+                   <button (click)="onUpdateGarage(editForm.value)" data-dismiss="modal" class="btn btn-primary" >Save changes</button>
+                </div>
+             </form>
+          </div>
+       </div>
+    </div>
+  </div>
+
+  </div>
+</div>

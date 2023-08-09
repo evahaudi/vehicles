@@ -1,0 +1,30 @@
+<app-layout>
+<div class="active-deliveries">
+  <div class="onroad-orders" id="deliveries_status-container">
+    <mat-card class="material-table">
+      <mat-card-title class="material-table__header">
+        <h5 class="material-table__title">Pending Deliveries Table</h5>
+        <app-settings-menu></app-settings-menu>
+      </mat-card-title>
+      <mat-card-content >
+        <table>
+          <tr><th>Product Name</th><th>Customer Name</th><th>Customer Phone</th><th>Product Category</th><th>Product Delivery Location</th>
+            <th>Supplier's Name</th><th>Supplier's Email</th><th>Supplier's Phone</th> <th>Status</th> <th></th>
+          </tr>
+          <tr *ngFor=" let delivery of deliveryStatus;">
+            <td *ngIf="delivery.status === 'pending'">{{delivery?.productName}}</td>
+            <td *ngIf="delivery.status === 'pending'">{{delivery?.customerName}}</td>
+            <td *ngIf="delivery.status === 'pending'">{{delivery?.customerPhone}}</td>
+            <td *ngIf="delivery.status === 'pending'">{{delivery?.productCategory}}</td>
+            <td *ngIf="delivery.status === 'pending'">{{delivery?.productDeliveryLocation}}</td>
+            <td *ngIf="delivery.status === 'pending'">{{delivery?.supplierName}}</td>
+            <td *ngIf="delivery.status === 'pending'">{{delivery?.supplierEmail}}</td>
+            <td *ngIf="delivery.status === 'pending'">{{delivery?.supplierPhone}}</td>
+            <td *ngIf="delivery.status === 'pending'" class="material-table__content-badge pending">{{delivery?.status}}</td>
+            <td *ngIf="delivery.status === 'pending'"> <a (click)="onDeleteDeliveryStatus(delivery?.id, delivery)" style="background-color: transparent; border: 0px;" class="btn btn-secondary tooltips" data-placement="top" data-original-title="Delete"><mat-icon>delete_sweep</mat-icon></a></td>
+          </tr>
+        </table>
+  </mat-card-content>
+  </mat-card>
+  </div>
+

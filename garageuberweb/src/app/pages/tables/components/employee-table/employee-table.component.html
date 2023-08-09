@@ -1,0 +1,371 @@
+<div class="holder">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" style="color:white;" routerLink="{{routes.DASHBOARD}}" routerLinkActive="active">Mechanic Manager</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor02">
+       <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+             <a class="nav-link" (click)="onOpenModal(null, 'add')" >Register new mechanic <span class="sr-only">(current)</span></a>
+          </li>
+       </ul>
+       <form class="form-inline my-2 my-lg-0">
+        <input type="search" (ngModelChange)="searchGarages(key.value)" #key="ngModel" ngModel
+         name="key" id="searchName" class="form-control mr-sm-2" placeholder="Search..." required>
+     </form>
+    </div>
+  </nav>
+  <mat-toolbar class="page-header" role="heading">
+    <h1>Welcome, back!</h1>
+  </mat-toolbar>
+
+  <!-- list all garages -->
+  <div class="container" id="main-container">
+  <div class="row">
+    <div *ngFor="let garage of garages" class="col-md-6 col-xl-3">
+       <div class="card m-b-30">
+        <div class="card-body row">
+          <div class="col-6">
+             <a href=""><img src="{{garage?.garageLogoImageURL}}" alt="" class="img-fluid rounded-circle w-60"></a>
+          </div>
+          <div class="col-6 card-title align-self-center mb-0">
+             <h5>{{garage?.garageName}}</h5>
+             <p class="m-0">{{garage?.garageLocation}}</p>
+          </div>
+       </div>
+       <ul class="list-group list-group-flush">
+          <li class="list-group-item"><i class="fa fa-phone float-right"></i> Phone: {{garage?.garagePhone}}</li>
+          <li class="list-group-item"><i class="fa fa-envelpe float-right"></i> Email: {{garage?.garageEmail}}</li>
+          <li class="list-group-item"><i class="fa fa-envelpe float-right"></i> Mechanic: {{garage?.garageOwnerName}}</li>
+          <li class="list-group-item" *ngIf="garage.service1Charges !== 0"><i class="fa fa-phone float-right"></i> Service : {{garage?.service1}} <span style="float: right;">$.{{garage?.service1Charges}}</span></li>
+          <li class="list-group-item" *ngIf="garage.service2Charges !== 0"><i class="fa fa-phone float-right"></i> Service : {{garage?.service2}} <span style="float: right;">$.{{garage?.service2Charges}}</span></li>
+          <li class="list-group-item" *ngIf="garage.service3Charges !== 0"><i class="fa fa-phone float-right"></i> Service : {{garage?.service3}} <span style="float: right;">$.{{garage?.service3Charges}}</span></li>
+          <li class="list-group-item" *ngIf="garage.service4Charges !== 0"><i class="fa fa-phone float-right"></i> Service : {{garage?.service4}} <span style="float: right;">$.{{garage?.service4Charges}}</span></li>
+          <li class="list-group-item" *ngIf="garage.service5Charges !== 0"><i class="fa fa-phone float-right"></i> Service : {{garage?.service5}} <span style="float: right;">$.{{garage?.service5Charges}}</span></li>
+       </ul>
+          <div class="card-body">
+             <div class="float-right btn-group btn-group-sm">
+                <a  (click)="onOpenModal(garage, 'edit')" class="btn btn-primary tooltips" data-placement="top" data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
+                <a (click)="onOpenModal(garage, 'delete')" class="btn btn-secondary tooltips" data-placement="top" data-original-title="Delete"><i class="fa fa-times"></i></a>
+             </div>
+          </div>
+       </div>
+    </div>
+  </div>
+
+  <!-- Add Garage Modal -->
+  <div class="modal fade" id="addGarageModal" tabindex="-1" role="dialog" aria-labelledby="addGarageModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="addGarageModalLabel">Register New Mechanic</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body">
+            <form #addForm="ngForm" (ngSubmit)="onAddGarage(addForm)">
+            <div class="form-group">
+               <label for="garageName">Garage Name <span style="font-size: smaller; color: brown;">If you affiliate to any garage</span></label>
+               <input type="text" ngModel name="garageName" class="form-control" id="garageName" placeholder="Garage Name" required>
+            </div>
+            <div class="form-group">
+              <label for="garageLocation">Mechanic Location</label>
+              <input type="text" ngModel name="garageLocation" class="form-control" id="garageLocation" placeholder="Mechanic Location" required>
+           </div>
+            <div class="form-group">
+               <label for="garagePhone">Service Number</label>
+               <input type="tel" ngModel name="garagePhone" class="form-control" id="garagePhone" placeholder="Mechanic Phone / Service Number / helpline" required>
+            </div>
+            <div class="form-group">
+               <label for="garageEmail">Mechanic Service Email</label>
+               <input type="email" ngModel name="garageEmail" class="form-control" id="garageEmail" placeholder="Mechanic Service Email" required>
+            </div>
+            <div class="form-group">
+               <label for="garageOwnerName">Mechanic Name  </label>
+               <input type="text" ngModel name="garageOwnerName" class="form-control" id="garageOwnerName" placeholder="Mechanic Name" required>
+            </div>
+            <div class="form-group">
+               <label for="garageLogoImageURL">Mechanic's Logo Image URL</label>
+               <input type="text" ngModel name="garageLogoImageURL" class="form-control" id="garageLogoImageURL" placeholder="Mechanic's Logo Image URL" required>
+            </div>
+            <br>
+            <p style="font-weight: 500; text-decoration: underline;">List services the garage offers & their respective charges</p>
+            <div class="form-group">
+              <label for="service1">Service 1</label>
+              <input type="text" ngModel name="service1" class="form-control" id="service1" placeholder="Service 1" required>
+           </div>
+           <div class="form-group">
+            <label for="service1Charges">Service 1 Avarage Charges</label>
+            <input type="number" ngModel min="0" name="service1Charges" class="form-control" id="service1Charges" placeholder="Service 1 Avarage Charges" required>
+         </div>
+
+         <div class="form-group">
+          <label for="service2">Service 2</label>
+          <input type="text" ngModel name="service2" class="form-control" id="service2" placeholder="Service 2" required>
+       </div>
+       <div class="form-group">
+        <label for="service2Charges">Service 2 Avarage Charges</label>
+        <input type="number" ngModel min="0" name="service2Charges" class="form-control" id="service2Charges" placeholder="Service 2 Avarage Charges" required>
+     </div>
+
+         <div class="form-group">
+          <label for="service3">Service 3</label>
+          <input type="text" ngModel name="service3" class="form-control" id="service3" placeholder="Service 3" required>
+       </div>
+       <div class="form-group">
+        <label for="service3Charges">Service 3 Avarage Charges</label>
+        <input type="number" ngModel min="0" name="service3Charges" class="form-control" id="service3Charges" placeholder="Service 3 Avarage Charges" required>
+     </div>
+
+         <div class="form-group">
+          <label for="service4">Service 4</label>
+          <input type="text" ngModel name="service4" class="form-control" id="service4" placeholder="Service 4" required>
+       </div>
+       <div class="form-group">
+        <label for="service4Charges">Service 4 Avarage Charges</label>
+        <input type="number" ngModel min="0" name="service4Charges" class="form-control" id="service4Charges" placeholder="Service 4 Avarage Charges" required>
+     </div>
+
+         <div class="form-group">
+          <label for="service5">Service 5</label>
+          <input type="text" ngModel name="service5" class="form-control" id="service5" placeholder="Service 5" required>
+       </div>
+       <div class="form-group">
+        <label for="service5Charges">Service 5 Avarage Charges</label>
+        <input type="number" ngModel min="0" name="service5Charges" class="form-control" id="service5Charges" placeholder="Service 5 Avarage Charges" required>
+     </div>
+            <div class="modal-footer">
+               <button type="button" id="add-garage-form" class="btn btn-secondary" data-dismiss="modal">Close</button>
+               <button type="submit" class="btn btn-primary" >Save changes</button>
+            </div>
+            </form>
+         </div>
+      </div>
+    </div>
+    </div>
+
+  <!-- Edit Modal -->
+  <div class="modal fade" id="updateGarageModal" tabindex="-1" role="dialog" aria-labelledby="productupdateGarageModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title" id="updateGarageModalLabel">Editing : {{editGarage?.garageName}} details for {{editGarage?.garageOwnerName}}</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+             </button>
+          </div>
+          <div class="modal-body">
+             <form #editForm="ngForm">
+                <div class="form-group">
+                   <label for="garageName">Mechanic Name</label>
+                   <input type="text" ngModel="{{editGarage?.garageName}}" name="garageName" class="form-control" id="garageName" aria-describedby="emailHelp" placeholder="Garage Name">
+                </div>
+                <input type="hidden" ngModel="{{editGarage?.id}}" name="id" class="form-control" id="id" placeholder="ID">
+                <input type="hidden" ngModel="{{editGarage?.garageCode}}" name="garageCode" class="form-control" id="garageCode" placeholder="Garage Code">
+                <div class="form-group">
+                  <label for="garageLocation">Mechanic Location</label>
+                  <input type="text" ngModel="{{editGarage?.garageLocation}}" name="garageLocation" class="form-control" id="garageLocation" placeholder="Mechanic Location">
+               </div>
+                <div class="form-group">
+                   <label for="garagePhone">Mechanic Service Phone Number / Helpline</label>
+                   <input type="tel" ngModel="{{editGarage?.garagePhone}}" name="garagePhone" class="form-control" id="garagePhone" placeholder="Mechanic Service Phone...">
+                </div>
+                <div class="form-group">
+                   <label for="garageEmail">Mechanic Service Email</label>
+                   <input type="email" ngModel="{{editGarage?.garageEmail}}" name="garageEmail" class="form-control" id="garageEmail" placeholder="Email...">
+                </div>
+                <div class="form-group">
+                   <label for="garageOwnerName">Mechanic Owner's Name</label>
+                   <input type="text" ngModel="{{editGarage?.garageOwnerName}}" name="garageOwnerName" class="form-control" id="garageOwnerName" name="garageOwnerName" placeholder="Owners Name...">
+                </div>
+                <div class="form-group">
+                   <label for="garageLogoImageURL">Logo Image URL</label>
+                   <input type="text" ngModel="{{editGarage?.garageLogoImageURL}}" name="garageLogoImageURL" class="form-control" id="garageLogoImageURL" placeholder="Logo image URL...">
+                </div>
+
+                <p style="font-weight: 500; text-decoration: underline;">List services the garage offers & their respective charges</p>
+
+            <div class="form-group">
+              <label for="service1">Service 1</label>
+              <input type="text" ngModel="{{editGarage?.service1}}" name="service1" class="form-control" id="service1" placeholder="Service 1" required>
+           </div>
+           <div class="form-group">
+            <label for="service1Charges">Service 1 Avarage Charges</label>
+            <input type="number" ngModel="{{editGarage?.service1Charges}}" min="0" name="service1Charges" class="form-control" id="service1Charges" placeholder="Service 1 Avarage Charges" required>
+         </div>
+
+         <div class="form-group">
+          <label for="service2">Service 2</label>
+          <input type="text" ngModel="{{editGarage?.service2}}" name="service2" class="form-control" id="service2" placeholder="Service 2" required>
+       </div>
+       <div class="form-group">
+        <label for="service2Charges">Service 2 Avarage Charges</label>
+        <input type="number" ngModel="{{editGarage?.service2Charges}}" min="0" name="service2Charges" class="form-control" id="service2Charges" placeholder="Service 2 Avarage Charges" required>
+     </div>
+
+         <div class="form-group">
+          <label for="service3">Service 3</label>
+          <input type="text" ngModel="{{editGarage?.service3}}" name="service3" class="form-control" id="service3" placeholder="Service 3" required>
+       </div>
+       <div class="form-group">
+        <label for="service3Charges">Service 3 Avarage Charges</label>
+        <input type="number" ngModel="{{editGarage?.service3Charges}}" min="0" name="service3Charges" class="form-control" id="service3Charges" placeholder="Service 3 Avarage Charges" required>
+     </div>
+
+         <div class="form-group">
+          <label for="service4">Service 4</label>
+          <input type="text" ngModel="{{editGarage?.service4}}" name="service4" class="form-control" id="service4" placeholder="Service 4" required>
+       </div>
+       <div class="form-group">
+        <label for="service4Charges">Service 4 Avarage Charges</label>
+        <input type="number" ngModel="{{editGarage?.service4Charges}}" min="0" name="service4Charges" class="form-control" id="service4Charges" placeholder="Service 4 Avarage Charges" required>
+     </div>
+
+         <div class="form-group">
+          <label for="service5">Service 5</label>
+          <input type="text" ngModel="{{editGarage?.service5}}" name="service5" class="form-control" id="service5" placeholder="Service 5" required>
+       </div>
+       <div class="form-group">
+        <label for="service5Charges">Service 5 Avarage Charges</label>
+        <input type="number" ngModel="{{editGarage?.service5Charges}}" min="0" name="service5Charges" class="form-control" id="service5Charges" placeholder="Service 5 Avarage Charges" required>
+     </div>
+                <div class="modal-footer">
+                   <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">Close</button>
+                   <button (click)="onUpdateGarage(editForm.value)" data-dismiss="modal" class="btn btn-primary" >Save changes</button>
+                </div>
+             </form>
+          </div>
+       </div>
+    </div>
+  </div>
+
+  <!-- Delete Modal -->
+  <div class="modal fade" id="deleteGarageModal" tabindex="-1" role="dialog" aria-labelledby="deleteModelLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title" id="deleteModelLabel">Deleting Mechanic: {{deleteGarage?.garageName}}</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+             </button>
+          </div>
+          <div class="modal-body">
+             <p>Are you sure you want to delete mechanic {{deleteGarage?.garageName}} owned by {{deleteGarage?.garageOwnerName}} ?</p>
+             <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button (click)="onDeleteGarage(deleteGarage?.id)" class="btn btn-danger" data-dismiss="modal">Yes</button>
+             </div>
+          </div>
+       </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- Notification for no garages -->
+  <div *ngIf="garages?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
+  <div class="alert alert-info" role="alert">
+    <h4 class="alert-heading">NO MECAHNICS!</h4>
+    <p>No Mechanic were found.</p>
+    <p>If you think ther is a mistake, contact admin at nellyarsey7@gmail.com</p>
+  </div>
+  </div>
+
+
+  <!-- end the products page -->
+  <br><br><br><br>
+</div>
+<!-- <mat-card class="employee-table-wrapper"> -->
+
+  <!-- table for suppliers collected through http client -->
+  <!-- <table class="employee-table__table">
+    <caption>Suppliers List</caption>
+    <tr>
+      <th class="employee-table__table-header" style="text-align: left;" >Name</th>
+      <th class="employee-table__table-header" style="text-align: left;">Email</th>
+      <th class="employee-table__table-header" style="text-align: left;">Phone</th>
+      <th class="employee-table__table-header" style="text-align: left;">Location</th></tr>
+    <tr *ngFor = "let supplier of suppliers">
+      <td class="employee-table__table-body supplier_table"> {{supplier.name}}</td>
+      <td class="employee-table__table-body supplier_table">{{supplier.email}}</td>
+      <td class="employee-table__table-body supplier_table">{{supplier.phone}}</td>
+      <td class="employee-table__table-body supplier_table">{{supplier.location}}</td></tr>
+  </table>
+
+  <mat-card-title class="employee-table-wrapper__header">
+    <p *ngIf="!isShowFilterInput" class="employee-table-wrapper__title">Suppliers List</p>
+    <div *ngIf="isShowFilterInput" class="employee-table-wrapper__search">
+      <div class="employee-table-wrapper__icon-wrapper">
+        <mat-icon class="employee-table-wrapper__icon">search</mat-icon>
+      </div>
+      <input matInput class="employee-table-wrapper__search-input" (keyup)="applyFilter($event)">
+      <button class="employee-table-wrapper__button" mat-mini-fab (click)="showFilterInput()">
+        <mat-icon class="employee-table-wrapper__icon">close</mat-icon>
+      </button>
+    </div>
+    <button class="employee-table-wrapper__button" mat-mini-fab (click)="showFilterInput()">
+      <mat-icon class="employee-table-wrapper__icon">search</mat-icon>
+    </button>
+  </mat-card-title>
+  <mat-card-content class="employee-table__content">
+    <table class="employee-table__table" mat-table [dataSource]="dataSource"> -->
+
+      <!-- Checkbox Column -->
+      <!-- <ng-container matColumnDef="select">
+        <th class="employee-table__table-checkbox" mat-header-cell *matHeaderCellDef>
+          <mat-checkbox
+            color="primary"
+            (change)="$event ? masterToggle() : null"
+            [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()"
+            [aria-label]="checkboxLabel()">
+          </mat-checkbox>
+        </th>
+        <td class="employee-table__table-checkbox" mat-cell *matCellDef="let row">
+          <mat-checkbox
+            color="primary"
+            (click)="$event.stopPropagation()"
+            (change)="$event ? selection.toggle(row) : null"
+            [checked]="selection.isSelected(row)"
+            [aria-label]="checkboxLabel(row)">
+          </mat-checkbox>
+        </td>
+      </ng-container> -->
+
+      <!-- Name Column -->
+      <!-- <ng-container matColumnDef="name" >
+        <th class="employee-table__table-header" mat-header-cell *matHeaderCellDef > Name </th>
+        <td class="employee-table__table-body"   mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container> -->
+
+      <!-- Email Column -->
+      <!-- <ng-container matColumnDef="supplier_email">
+        <th class="employee-table__table-header" mat-header-cell *matHeaderCellDef> Email </th>
+        <td class="employee-table__table-body" mat-cell *matCellDef="let element"> {{element.supplier_email}} </td>
+      </ng-container> -->
+
+      <!-- Phone Column -->
+      <!-- <ng-container matColumnDef="supplier_phone">
+        <th class="employee-table__table-header" mat-header-cell *matHeaderCellDef> Phone </th>
+        <td class="employee-table__table-body" mat-cell *matCellDef="let element"> {{element.supplier_phone}} </td>
+      </ng-container> -->
+
+      <!-- Location Column -->
+      <!-- <ng-container matColumnDef="location">
+        <th class="employee-table__table-header" mat-header-cell *matHeaderCellDef> Location </th>
+        <td class="employee-table__table-body" mat-cell *matCellDef="let element"> {{element.location}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+          (click)="selection.toggle(row)">
+      </tr>
+    </table>
+  </mat-card-content>
+  <div class="pagination">
+    <mat-paginator [pageSizeOptions]="[10, 15, 100]" showFirstLastButtons></mat-paginator>
+  </div>
+</mat-card> -->

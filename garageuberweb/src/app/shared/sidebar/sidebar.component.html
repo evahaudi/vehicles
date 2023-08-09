@@ -1,0 +1,64 @@
+<mat-list>
+  <mat-list-item routerLink="{{routes.DASHBOARD}}" routerLinkActive="active">
+    <mat-icon>home</mat-icon> Dashboard
+  </mat-list-item>
+  <mat-list-item routerLink="{{routes.TYPOGRAPHY}}" routerLinkActive="active">
+    <mat-icon>face</mat-icon> Users
+  </mat-list-item>
+  <mat-list-item routerLink="{{routes.TABLES}}" routerLinkActive="active">
+    <mat-icon>build</mat-icon> Mechanics
+  </mat-list-item>
+  <mat-list-item (click)="openUiElements()">
+    <mat-icon> bubble_chart</mat-icon> Add Elements
+  </mat-list-item>
+    <div>
+      <mat-list-item class="ui-element" routerLink="{{routes.TYPOGRAPHY}}" routerLinkActive="active">
+        <div class="circle"></div>Users
+      </mat-list-item>
+      <mat-list-item class="ui-element" routerLink="{{routes.TABLES}}" routerLinkActive="active">
+        <div class="circle"></div>Garages
+      </mat-list-item>
+      <!-- <mat-list-item class="ui-element" routerLink="{{routes.UI_ELEMENTS_MAP}}" routerLinkActive="active">
+        <div class="circle"></div>Category
+      </mat-list-item> -->
+    </div>
+</mat-list>
+
+<p class="sidebar-title">Others</p>
+
+
+<mat-list>
+  <a href="https://www.familyhandyman.com/list/100-super-simple-car-repairs-you-dont-need-to-go-to-the-shop-for/" target="_blank" style="text-decoration: none;">
+    <mat-list-item>
+      <mat-icon>library_books</mat-icon> Library
+    </mat-list-item>
+  </a>
+  <!-- <a routerLink="{{routes.CONTACT}}" routerLinkActive="active" target="_blank" style="text-decoration: none;">
+    <mat-list-item>
+      <mat-icon>question_answer</mat-icon> Support
+    </mat-list-item>
+  </a> -->
+  <a href="https://www.goauto.ca/blog/10-common-car-questions-youre-afraid-ask" target="_blank" style="text-decoration: none;">
+    <mat-list-item>
+      <mat-icon>help_outline</mat-icon> FAQ
+    </mat-list-item>
+  </a>
+  <a routerLink="{{routes.GARAGE_REVIEW_PAGE}}" routerLinkActive="active" target="_blank" style="text-decoration: none;">
+    <mat-list-item>
+      <mat-icon style="color: #087355;">favorite</mat-icon> Reviews
+    </mat-list-item>
+  </a>
+  <a routerLink="{{routes.USER_HOME}}" routerLinkActive="active" target="_blank" style="text-decoration: none;">
+    <mat-list-item>
+      <mat-icon>face</mat-icon> Users View
+    </mat-list-item>
+  </a>
+</mat-list>
+
+<p class="sidebar-title">General Services</p>
+
+<mat-list>
+  <mat-list-item routerLink="{{routes.PENDING}}" routerLinkActive="active"> <div class="project-circle project-circle_yellow"></div> On-Going</mat-list-item>
+  <mat-list-item  routerLink="{{routes.DELIVERED}}" routerLinkActive="active"> <div class="project-circle project-circle_blue"></div> Completed</mat-list-item>
+  <mat-list-item routerLink="{{routes.CANCELLED}}" routerLinkActive="active"> <div class="project-circle project-circle_pink"></div> Cancelled </mat-list-item>
+</mat-list>

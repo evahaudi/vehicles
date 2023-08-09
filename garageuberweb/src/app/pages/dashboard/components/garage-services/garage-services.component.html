@@ -1,0 +1,201 @@
+<div class="holder">
+  <aside class="left-sidebar">
+    <!-- Sidebar scroll-->
+    <div class="scroll-sidebar">
+        <!-- Sidebar navigation-->
+        <nav class="sidebar-nav">
+            <ul id="sidebarnav">
+                <li>
+                    <a routerLink="{{routes.GARAGE_HOME}}" routerLinkActive="active" class="waves-effect"><i class="fa fa-delicious m-r-10" aria-hidden="true"></i>Dashboard</a>
+                </li>
+                <li>
+                    <a routerLink="{{routes.GARAGE_PROFILE}}" routerLinkActive="active" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Profile</a>
+                </li>
+                <li>
+                    <a routerLink="{{routes.GARAGE_ACTIVE_SERVICES}}" routerLinkActive="active" class="waves-effect"><i class="fa fa-table m-r-10" aria-hidden="true"></i>Active Services</a>
+                </li>
+                <li>
+                    <a routerLink="{{routes.GARAGE_REVIEW_PAGE}}" routerLinkActive="active" class="waves-effect"><i class="fa fa-gratipay m-r-10" aria-hidden="true"></i>Reviews</a>
+                </li>
+                <li>
+                    <a href="https://www.google.com/maps/@-0.4871896,37.1151359,15z" routerLinkActive="active" class="waves-effect"><i class="fa fa-globe m-r-10" aria-hidden="true"></i>Google Map</a>
+                </li>
+                <li>
+                    <a routerLink="{{routes.MANAGE_USER_REQUESTS}}" routerLinkActive="active" class="waves-effect"><i class="fa fa-clock-o m-r-10" aria-hidden="true"></i>Manage Requests</a>
+                </li>
+                <li>
+                    <a href="pages-error-404.html" class="waves-effect"><i class="fa fa-info-circle m-r-10" aria-hidden="true"></i>Error 404</a>
+                </li>
+                <li>
+                  <a href="pages-error-404.html" class="waves-effect"><i class="fa fa-sign-out m-r-10" aria-hidden="true"></i>Sign Out</a>
+              </li>
+
+            </ul>
+            <!-- <div class="text-center m-t-30">
+                <a href="https://themewagon.com/themes/free-bootstrap-4-admin-dashboard-template/" class="btn btn-danger">Download Here</a>
+            </div> -->
+        </nav>
+        <!-- End Sidebar navigation -->
+    </div>
+    <!-- End Sidebar scroll-->
+</aside>
+
+<div class="active-deliveries" style="margin-top: 0;">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom: 1em;">
+    <a class="navbar-brand"  routerLink="{{routes.USER_HOME}}" routerLinkActive="active" style="color:white;">Active Service Orders & Deliveries</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor02">
+       <ul class="navbar-nav mr-auto">
+       </ul>
+       <form class="form-inline my-2 my-lg-0">
+          <input type="search" (ngModelChange)="searchRequests(key.value)" #key="ngModel"  ngModel
+           name="key" id="searchName" class="form-control mr-sm-2" placeholder="Search requests.." required>
+       </form>
+    </div>
+  </nav>
+
+  <div class="onroad-orders" id="deliveries-container">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <div class="container" id="main-container">
+      <!-- start service request list -->
+      <div class="row">
+        <div *ngFor = "let service of serviceRequests" class="col-md-8 col-xl-3">
+            <div class="card m-b-30" *ngIf="service.requestedGarageEmail === mechanic">
+                <div class="card-body row">
+                    <div class="col-6">
+                        <a href=""><img src="{{service?.requestedUserImageURL}}" alt="" class="img-fluid rounded-circle w-80"></a>
+                    </div>
+                    <div class="col-6 card-title align-self-center mb-0">
+                        <h5>{{service?.requestedUserName}}</h5>
+                        <p class="m-0">{{service?.requestedUserLocation}}</p>
+                    </div>
+                </div>
+                <ul class="list-group list-group-flush" style="margin: 0; color: black;">
+                    <li class="list-group-item" style="font-size: smaller;"><i class="fa fa-car float-right" style="padding: 0;" ></i>&nbsp; Requested: {{service?.requestedUserRequestedService}} <a href="#"> {{service.email}} </a></li>
+                    <li class="list-group-item" style="font-size: smaller;"><i class="fa fa-phone float-right" style="padding: 0; font-size: smaller;"></i> &nbsp; Phone: {{service?.requestedUserPhone}}</li>
+                    <li class="list-group-item" style="font-size: smaller;"><i class="fa fa-area-chart float-right" style="padding: 0; font-size: smaller;"></i> &nbsp; Status: {{service?.serviceStatus}}</li>
+                  </ul>
+                <div class="card-body">
+                    <div class="float-right btn-group btn-group-sm">
+                        <a  (click)="onOpenModal(service, 'edit')" class="btn btn-primary tooltips"  data-placement="top" data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
+                        <a (click)="onOpenModal(service, 'delete')" class="btn btn-secondary tooltips" data-placement="top" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-times"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+<!-- end of suppliers list -->
+    <table style="margin-left: 0;">
+      <caption> Stranded user requests</caption>
+      <tr><th>User Name</th><th>User Phone</th><th>Your Email</th> <th>Requested Service</th><th>Your Location</th><th>User Location</th>
+        <th>Status</th> <th>Service Charges (Ksh.)</th> <th></th>
+      </tr>
+      <tr *ngFor= "let service of serviceRequests" ng-mousemove="getItemId(service?.id)"  >
+        <td *ngIf="service.requestedGarageEmail === mechanic">{{service?.requestedUserName}}</td>
+        <td *ngIf="service.requestedGarageEmail === mechanic">{{service?.requestedUserPhone}}</td>
+        <td *ngIf="service.requestedGarageEmail === mechanic">{{service?.requestedGarageEmail}}</td>
+        <td *ngIf="service.requestedGarageEmail === mechanic">{{service?.requestedUserRequestedService}}</td>
+        <td *ngIf="service.requestedGarageEmail === mechanic">{{service?.requestedGarageLocation}}</td>
+        <td *ngIf="service.requestedGarageEmail === mechanic">{{service?.requestedUserLocation}}</td>
+        <td *ngIf="service.requestedGarageEmail === mechanic">{{service?.serviceStatus}}</td>
+        <td *ngIf="service.requestedGarageEmail === mechanic">{{service?.requestedServiceCharges}}</td>
+        <td *ngIf="service.requestedGarageEmail === mechanic" title="Accept Request" style="padding-right: 0; margin-right: 0; ">
+           <a (click)="onOpenModal(service, 'edit')"
+          style="background-color: transparent; border: 0px;" class="btn btn-secondary tooltips" data-placement="top"
+          data-original-title="Accept"><mat-icon>assignment_turned_in</mat-icon></a>
+        </td>
+        <td *ngIf="service.requestedGarageEmail === mechanic" style="padding-left: 0; margin-left: 0; ">
+          <a (click)="onOpenModal(service, 'delete')"
+          style="background-color: transparent; border: 0px;" class="btn btn-secondary tooltips" data-placement="top"
+          data-original-title="Delete"><mat-icon>delete_sweep</mat-icon></a>
+        </td>
+      </tr>
+    </table>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="updateRequestModal" tabindex="-1" role="dialog" aria-labelledby="updateRequestModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+     <div class="modal-content">
+        <div class="modal-header">
+           <h5 class="modal-title" id="updateRequestModalLabel">Accept Mechanic Request</h5>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+           </button>
+        </div>
+        <div class="modal-body">
+           <form #editForm="ngForm">
+              <input type="hidden" ngModel="{{editserviceRequests?.id}}" name="id" class="form-control" id="id" placeholder="Id">
+              <input type="hidden" ngModel="{{editserviceRequests?.serviceStatusCode}}" name="serviceStatusCode" class="form-control" id="serviceStatusCode" placeholder="Service Code">
+              <input type="hidden" ngModel="{{editserviceRequests?.requestedUserImageURL}}" name="requestedUserImageURL" class="form-control" id="requestedUserImageURL" placeholder="Image URL">
+              <input type="hidden" ngModel="{{editserviceRequests?.requestedUserCode}}" name="requestedUserCode" class="form-control" id="requestedUserCode" placeholder="User Code">
+              <input type="hidden" ngModel="{{editserviceRequests?.requestedGarageName}}" name="requestedGarageName" class="form-control" id="requestedGarageName" placeholder="Garage Name">
+              <input type="hidden" ngModel="{{editserviceRequests?.requestedGarageLocation}}" name="requestedGarageLocation" class="form-control" id="requestedGarageLocation" placeholder="Garage location">
+              <input type="hidden" ngModel="{{editserviceRequests?.requestedGaragePhone}}" name="requestedGaragePhone" class="form-control" id="requestedGaragePhone" placeholder="Garage Phone">
+              <input type="hidden" ngModel="{{editserviceRequests?.requestedGarageEmail}}" name="requestedGarageEmail" class="form-control" id="requestedGarageEmail" placeholder="garage Email">
+              <input type="hidden" ngModel="{{editserviceRequests?.requestedGarageOwnerName}}" name="requestedGarageOwnerName" class="form-control" id="requestedGarageOwnerName" placeholder="Garage Owner Name">
+              <input type="hidden" ngModel="{{editserviceRequests?.requestedGarageLogoImageURL}}" name="requestedGarageLogoImageURL" class="form-control" id="requestedGarageLogoImageURL" placeholder="Garage Logo">
+              <input type="hidden" ngModel="{{editserviceRequests?.requestedGarageCode}}" name="requestedGarageCode" class="form-control" id="requestedGarageCode" placeholder="Garage Code">
+              <input type="hidden" ngModel="Accepted" name="serviceStatus" class="form-control" id="serviceStatus" placeholder="Status">
+              <input type="hidden" ngModel="{{editserviceRequests?.requestedUserPhone}}" name="requestedUserPhone" class="form-control" id="requestedUserPhone" placeholder="Requested User Phone">
+              <input type="hidden" ngModel="{{editserviceRequests?.requestedUserLocation}}" name="requestedUserLocation" class="form-control" id="requestedUserLocation" placeholder="Requested User Location">
+              <input type="hidden" ngModel="{{editserviceRequests?.requestedUserRequestedService}}" name="requestedUserRequestedService" class="form-control" id="requestedUserRequestedService" placeholder="Requested User Requested Service">
+              <input type="hidden" ngModel="{{editserviceRequests?.requestedUserName}}" name="requestedUserName" class="form-control" id="requestedUserName" placeholder="Requested User Name">
+
+              <div class="form-group">
+                <label for="requestedServiceCharges">How Much will you charge for the {{editserviceRequests?.requestedUserRequestedService}} service?
+                  <span style="font-size: smaller; color: red;"> *In Ksh.</span> </label>
+              <input type="number" ngModel="{{editserviceRequests?.requestedServiceCharges}}" name="requestedServiceCharges" class="form-control" id="requestedServiceCharges" placeholder="Charges For The Request Service">
+
+             </div>
+             <div class="form-group">
+              <label for="waitingTime">How long will you take to arrive at {{editserviceRequests?.requestedUserLocation}} ?
+                <span style="font-size: smaller; color: red;"> *In minutes.</span>
+              </label>
+              <input type="number"  ngModel="{{editserviceRequests?.waitingTime}}" name="waitingTime" class="form-control" id="waitingTime" placeholder="Waiting time ...">
+           </div>
+              <div class="modal-footer">
+                 <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">Close</button>
+                 <button (click)="onUpdateRequest(editForm.value)" data-dismiss="modal" class="btn btn-primary" >Accept Request</button>
+              </div>
+           </form>
+        </div>
+     </div>
+  </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteRequestModal" tabindex="-1" role="dialog" aria-labelledby="deleteModelLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+     <div class="modal-content">
+        <div class="modal-header">
+           <h5 class="modal-title" id="deleteModelLabel">Delete Request</h5>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+           </button>
+        </div>
+        <div class="modal-body">
+           <p>Are you sure you want to delete request for {{deleteserviceRequests?.requestedUserRequestedService}} for a stranded customer at {{deleteserviceRequests?.requestedUserLocation}}  ?</p>
+           <p>Once this action is done, the request will be cancelled. <span style="font-size: smaller; color: red;"> *This action cannot be undone.</span></p>
+           <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+              <button (click)="onDeleteServiceRequest(deleteserviceRequests?.id)" class="btn btn-danger" data-dismiss="modal">Yes</button>
+           </div>
+        </div>
+     </div>
+  </div>
+</div>
+
+  <!-- Notification for no deliveries -->
+  <div *ngIf="serviceRequests?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
+    <div class="alert alert-info" role="alert">
+      <h4 class="alert-heading">NO ACTIVE REQUESTS!</h4>
+      <p>No on-going active service requests were found.</p>
+    </div>
+    </div>
+  </div>
+</div>
+</div>

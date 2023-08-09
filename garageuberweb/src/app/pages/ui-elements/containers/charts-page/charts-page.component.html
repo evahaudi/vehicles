@@ -1,0 +1,107 @@
+<app-layout>
+  <mat-toolbar role="heading" class="page-header">
+    <h1>Add Products</h1>
+    <button mat-flat-button color="warn">Latest Reports</button>
+  </mat-toolbar>
+
+  <div class="add-products">
+<form action=""  #addForm="ngForm" (ngSubmit)="onAddProduct(addForm)">
+    <mat-form-field appearance="fill" >
+      <mat-label for="customerName" >Enter customers name</mat-label>
+      <input matInput type="text" ngModel name="customerName" class="form-control" id="customerName" placeholder="John Doe"  required>
+     </mat-form-field>
+
+     <mat-form-field appearance="fill">
+      <mat-label for="customerPhone">Enter customers phone</mat-label>
+      <input matInput type="customerPhone" ngModel name="customerPhone" class="form-control" id="customerPhone" placeholder="+254709765694"  ngModel required>
+     </mat-form-field>
+
+      <mat-form-field appearance="fill">
+       <mat-label for="productName">Enter name of the product</mat-label>
+       <input matInput type="text" ngModel name="productName" class="form-control" id="productName" placeholder="HP i7" required>
+       <mat-error *ngIf="productName.invalid">{{getErrorMessage()}}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label for="productCategory">Enter product category</mat-label>
+        <input matInput type="text" ngModel name="productCategory" class="form-control" id="productCategory" placeholder="Furniture" required>
+        <mat-error *ngIf="productCategory.invalid">{{getErrorMessage()}}</mat-error>
+       </mat-form-field>
+
+       <mat-form-field appearance="fill">
+        <mat-label for="productDeliveryLocation">Enter delivery location for the product</mat-label>
+        <input matInput type="text" ngModel name="productDeliveryLocation" class="form-control" id="productDeliveryLocation" placeholder="Kisumu" required>
+       </mat-form-field>
+<!--
+       <mat-form-field appearance="fill">
+         <mat-label for="productCategory">Select a product category</mat-label>
+         <mat-select [formControl]="productCategory" name="productCategory" class="form-control" id="productCategory" [(value)]="selectedCategory" required>
+           <mat-option>--</mat-option>
+           <mat-option *ngFor="let category of categories" [value]="category">
+             {{category.name}}
+           </mat-option>
+         </mat-select>
+         <mat-error *ngIf="productCategory.hasError('required')">Please select a product category</mat-error>
+         <mat-hint> Example:  {{productCategory.value?.example}}</mat-hint>
+         <p>{{selectedCategory}}</p>
+       </mat-form-field>
+
+       <mat-form-field appearance="fill">
+        <mat-label for="productDeliveryLocation">Choose delivery location</mat-label>
+        <mat-select [formControl]="deliveryLocation" name="productDeliveryLocation" class="form-control" id="productDeliveryLocation" [(ngModel)]="selectedLocation" matNativeControl required>
+          <mat-option>--</mat-option>
+          <mat-option *ngFor="let locate of locators" [value]="locate">
+            {{locate.location}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="deliveryLocation.hasError('required')">Please select a delivery location</mat-error>
+        <mat-hint> pin: <a href=""> {{deliveryLocation.value?.pin}} </a></mat-hint>
+      </mat-form-field> <br> -->
+
+
+      <!-- <button mat-icon-button color="primary" aria-label="Example icon button with a home icon">
+        <mat-icon>ballot</mat-icon> Save
+      </button> -->
+      <button class="save" [disabled]="addForm.invalid" mat-raised-button color="primary" type="submit">Save</button>
+    </form>
+  </div>
+
+
+
+  <!-- <div class="charts-content">
+    <div class="charts-content__charts-wrapper">
+
+      <mat-card class="charts-content__chart-item">
+        <mat-card-title>
+          <p>Apex Line Chart</p>
+        </mat-card-title>
+        <app-line-chart [lineChartData]="lineChartData$ | async"></app-line-chart>
+      </mat-card>
+
+      <mat-card class="charts-content__chart-item">
+        <mat-card-title>
+          <p>Apex Heatmap Chart</p>
+        </mat-card-title>
+        <app-heatmap-chart [heatmapChartData]="heatmapChartData$ | async"></app-heatmap-chart>
+      </mat-card>
+    </div>
+
+    <div class="charts-content__charts-wrapper">
+      <mat-card class="charts-content__chart-item">
+        <mat-card-title>
+          <p>Apex Dashed Line Chart</p>
+        </mat-card-title>
+        <app-dashed-line-chart [dashedLineChartData]="dashedLineChartData$ | async"></app-dashed-line-chart>
+      </mat-card>
+
+      <mat-card class="charts-content__chart-item">
+        <mat-card-title>
+          <p>Apex Pie Chart</p>
+        </mat-card-title>
+        <app-pie-chart [pieChartData]="pieChartData$ | async"></app-pie-chart>
+      </mat-card>
+    </div>
+  </div> -->
+
+  <app-footer></app-footer>
+</app-layout>

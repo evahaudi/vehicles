@@ -1,0 +1,33 @@
+@import './src/app/styles/variables';
+@import './src/app/styles/colors';
+
+.add-products .mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}
+
+mat-form-field{
+  width: 95%;
+  margin-bottom: 1rem;
+}
+
+.save{
+  margin-left: 35%;
+  margin-top: 2rem;
+  width: 15rem;
+}
+.charts-content {
+  margin: 0 8px;
+
+  &__charts-wrapper {
+    display: flex;
+
+    @media (max-width: $small) {
+      flex-wrap: wrap;
+    }
+  }
+
+  &__chart-item {
+    box-shadow: 0 3px 11px 0 $shadow-white, 0 3px 3px -2px $shadow-grey, 0 1px 8px 0 $shadow-dark-grey;
+    width: 100%;
+  }
+}

@@ -1,0 +1,65 @@
+<div class="holder">
+  <aside class="left-sidebar">
+    <!-- Sidebar scroll-->
+    <div class="scroll-sidebar">
+        <!-- Sidebar navigation-->
+        <nav class="sidebar-nav">
+            <ul id="sidebarnav">
+                <li>
+                    <a routerLink="{{routes.GARAGE_HOME}}" routerLinkActive="active" class="waves-effect"><i class="fa fa-delicious m-r-10" aria-hidden="true"></i>Dashboard</a>
+                </li>
+                <li>
+                    <a routerLink="{{routes.GARAGE_PROFILE}}" routerLinkActive="active" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Profile</a>
+                </li>
+                <li>
+                    <a routerLink="{{routes.GARAGE_ACTIVE_SERVICES}}" routerLinkActive="active" class="waves-effect"><i class="fa fa-table m-r-10" aria-hidden="true"></i>Active Services</a>
+                </li>
+                <li>
+                    <a routerLink="{{routes.GARAGE_REVIEW_PAGE}}" routerLinkActive="active" class="waves-effect"><i class="fa fa-gratipay m-r-10" aria-hidden="true"></i>Reviews</a>
+                </li>
+                <li>
+                    <a href="https://www.google.com/maps/@-0.4871896,37.1151359,15z" routerLinkActive="active" class="waves-effect"><i class="fa fa-globe m-r-10" aria-hidden="true"></i>Google Map</a>
+                </li>
+                <li>
+                    <a routerLink="{{routes.MANAGE_USER_REQUESTS}}" routerLinkActive="active" class="waves-effect"><i class="fa fa-clock-o m-r-10" aria-hidden="true"></i>Manage Requests</a>
+                </li>
+                <li>
+                    <a href="pages-error-404.html" class="waves-effect"><i class="fa fa-info-circle m-r-10" aria-hidden="true"></i>Error 404</a>
+                </li>
+                <li>
+                  <a href="pages-error-404.html" class="waves-effect"><i class="fa fa-sign-out m-r-10" aria-hidden="true"></i>Sign Out</a>
+              </li>
+
+            </ul>
+        </nav>
+        <!-- End Sidebar navigation -->
+    </div>
+    <!-- End Sidebar scroll-->
+</aside>
+
+
+
+<section class="reviews" id="reviews" style="margin-top: 10rem;">
+  <h1 class="heading" style="font-weight: 200; text-align: center;"> Garage Uber's <span>reviews</span> </h1>
+  <div class="swiper review-slider">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide box" *ngFor="let review of reviews">
+        <img src="{{review?.reviewingUserImageUrl}}" alt="">
+        <div class="content">
+          <p style="color: black; padding-bottom: 0;">Got served by : {{review?.reviewedGarageName}}</p>
+            <p style="color: black; padding: 0;">{{review?.reviewedComment}}</p>
+            <h3>{{review?.reviewingUserName}}</h3>
+            <div class="stars">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+            </div>
+        </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+</div>

@@ -1,0 +1,255 @@
+<div class="auth-page">
+  <div class="auth-page__content-block">
+    <div class="auth-page__content-wrapper">
+      <mat-tab-group class="auth-page__group">
+        <mat-tab label="Admin">
+          <h4 class="auth-page__group-title">Welcome back</h4>
+          <div class="auth-page__google-button-wrapper">
+            <button mat-raised-button class="auth-page__google-button">
+              <img class="auth-page__google-button-icon" src="./assets/auth/google.svg" alt="google">Sign in with Google
+            </button>
+          </div>
+
+          <div class="auth-page__border-wrapper">
+            <div class="auth-page__border-line"></div>
+            <p class="auth-page__border-title">or</p>
+            <div class="auth-page__border-line"></div>
+          </div>
+
+          <app-login-form (sendLoginForm)="sendLoginForm()"></app-login-form>
+
+        </mat-tab>
+
+
+       <!--  <mat-tab label="Supplier">
+          <h4 class="auth-page__group-title">Welcome!</h4>
+          <p class="auth-page__group-sub-title"> To Supplies account</p>
+
+          <app-sign-form (sendSignForm)="sendSignForm()"></app-sign-form>
+          <app-login-supplier (sendLoginForm)="sendSupplierLoginForm()"></app-login-supplier> -->
+
+          <!-- <div class="auth-page__border-wrapper">
+            <div class="auth-page__border-line"></div>
+            <p class="auth-page__border-title">or</p>
+            <div class="auth-page__border-line"></div>
+          </div>
+
+          <div class="auth-page__google-button-wrapper">
+            <button mat-raised-button class="auth-page__google-button">
+              <img class="auth-page__google-button-icon" src="./assets/auth/google.svg" alt="google">Sign in with Google
+            </button>
+          </div>
+        </mat-tab>
+        -->
+        <mat-tab label="Users">
+          <h4 class="auth-page__group-title">Welcome!</h4>
+          <p class="auth-page__group-sub-title">your garage uber account</p>
+
+          <app-login-supplier (sendLoginForm)="sendUserLoginForm()"></app-login-supplier>
+
+           <div class="auth-page__border-wrapper">
+            <div class="auth-page__border-line"></div>
+            <p class="auth-page__border-title">or</p>
+            <div class="auth-page__border-line"></div>
+          </div>
+
+          <div class="auth-page__google-button-wrapper">
+            <button mat-raised-button class="auth-page__google-button">
+              <img class="auth-page__google-button-icon" src="./assets/auth/google.svg" alt="google">Sign in with Google
+            </button>
+            <br>
+          </div>
+        </mat-tab>
+
+        <!-- -----------------------------------------------------------------------
+          GARAGE OWNER TAB
+        ------------------------------------------------------------------------ -->
+        <mat-tab label="Garage Owners">
+          <h4 class="auth-page__group-title">Welcome!</h4>
+          <p class="auth-page__group-sub-title">your garage uber account</p>
+
+          <app-login-supplier (sendLoginForm)="sendGarageLoginForm()"></app-login-supplier>
+
+           <div class="auth-page__border-wrapper">
+            <div class="auth-page__border-line"></div>
+            <p class="auth-page__border-title">or</p>
+            <div class="auth-page__border-line"></div>
+          </div>
+
+          <div class="auth-page__google-button-wrapper">
+            <button mat-raised-button class="auth-page__google-button">
+              <img class="auth-page__google-button-icon" src="./assets/auth/google.svg" alt="google">Sign in with Google
+            </button>
+            <br>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+
+      <p class="auth-page__footer-title">© {{todayDate | year}} <a href="https://www.google.com/">GarageUber</a>, LLC. All rights reserved.</p>
+    </div>
+  </div>
+  <div class="auth-page__logo">
+    <div class="auth-page__logo-wrapper">
+      <img class="auth-page__logo-img" src="./assets/auth/technician-3577933_640.png" alt="logo">
+      <h6 class="auth-page__logo-title" style="color: blanchedalmond;">Garage Uber Services</h6>
+    </div>
+  </div>
+</div>
+
+<div class="holder">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor02">
+       <ul class="navbar-nav mr-auto text-right list-inline">
+          <li class="nav-item active">
+             <a class="nav-link" (click)="onOpenModal(null, 'registerUser')">Register As User <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" (click)="onOpenModal(null, 'registerGarage')" >Register New Garage <span class="sr-only">(current)</span></a>
+         </li>
+       </ul>
+    </div>
+  </nav>
+
+
+  <!-- Users -->
+    <div class="typography-content__wrapper">
+      <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <div class="container" id="main-container">
+<!-- Register User Modal -->
+<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+       <div class="modal-header">
+          <h5 class="modal-title" id="addUserModalLabel">Register As New User</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+          </button>
+       </div>
+       <div class="modal-body">
+          <form #addForm="ngForm" (ngSubmit)="onAddUser(addForm)">
+          <div class="form-group">
+             <label for="userName">User Name</label>
+             <input type="text" ngModel name="userName" class="form-control" id="userName" placeholder="User Name" required>
+          </div>
+          <div class="form-group">
+            <label for="userPhone">Phone</label>
+            <input type="text" ngModel name="userPhone" class="form-control" id="userPhone" placeholder="Phone" required>
+          </div>
+         <div class="form-group">
+          <label for="userLocation">Location</label>
+          <input type="text" ngModel name="userLocation" class="form-control" id="userLocation" placeholder="Stranded Location" required>
+       </div>
+       <div class="form-group">
+        <label for="userImageURL">Image URL</label>
+        <input type="text" ngModel name="userImageURL" class="form-control" id="userImageURL" placeholder="Image URL" required>
+     </div>
+          <div class="form-group">
+             <label for="userRequestedService">Requested Service</label>
+             <input type="text" ngModel name="userRequestedService" class="form-control" id="userRequestedService" placeholder="Requested Service" required>
+          </div>
+          <div class="modal-footer">
+             <button type="button" id="add-user-form" class="btn btn-secondary" data-dismiss="modal">Close</button>
+             <button [disabled]="addForm.invalid" type="submit" class="btn btn-primary" >Save changes</button>
+          </div>
+          </form>
+       </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- Add Garage Modal -->
+  <div class="modal fade" id="addGarageModal" tabindex="-1" role="dialog" aria-labelledby="addGarageModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="addGarageModalLabel">Register New Garage</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body">
+            <form #addGarageForm="ngForm" (ngSubmit)="onAddGarage(addGarageForm)">
+            <div class="form-group">
+               <label for="garageName">Garage Name</label>
+               <input type="text" ngModel name="garageName" class="form-control" id="garageName" placeholder="Garage Name" required>
+            </div>
+            <div class="form-group">
+              <label for="garageLocation">Garage Location</label>
+              <input type="text" ngModel name="garageLocation" class="form-control" id="garageLocation" placeholder="Garage Location" required>
+           </div>
+            <div class="form-group">
+               <label for="garagePhone">Service Number</label>
+               <input type="tel" ngModel name="garagePhone" class="form-control" id="garagePhone" placeholder="Garage Phone / Service Number / helpline" required>
+            </div>
+            <div class="form-group">
+               <label for="garageEmail">Garage Service Email</label>
+               <input type="email" ngModel name="garageEmail" class="form-control" id="garageEmail" placeholder="Garage Service Email" required>
+            </div>
+            <div class="form-group">
+               <label for="garageOwnerName">Owners Name</label>
+               <input type="text" ngModel name="garageOwnerName" class="form-control" id="garageOwnerName" placeholder="Garage Owneer's Name" required>
+            </div>
+            <div class="form-group">
+               <label for="garageLogoImageURL">Garage's Logo Image URL</label>
+               <input type="text" ngModel name="garageLogoImageURL" class="form-control" id="garageLogoImageURL" placeholder="Garage's Logo Image URL" required>
+            </div>
+            <br>
+            <p style="font-weight: 500; text-decoration: underline;">List services the garage offers & their respective charges</p>
+            <div class="form-group">
+              <label for="service1">Service 1</label>
+              <input type="text" ngModel name="service1" class="form-control" id="service1" placeholder="Service 1" required>
+           </div>
+           <div class="form-group">
+            <label for="service1Charges">Service 1 Avarage Charges</label>
+            <input type="number" ngModel min="0" name="service1Charges" class="form-control" id="service1Charges" placeholder="Service 1 Avarage Charges" required>
+         </div>
+
+         <div class="form-group">
+          <label for="service2">Service 2</label>
+          <input type="text" ngModel name="service2" class="form-control" id="service2" placeholder="Service 2" required>
+       </div>
+       <div class="form-group">
+        <label for="service2Charges">Service 2 Avarage Charges</label>
+        <input type="number" ngModel min="0" name="service2Charges" class="form-control" id="service2Charges" placeholder="Service 2 Avarage Charges" required>
+     </div>
+
+         <div class="form-group">
+          <label for="service3">Service 3</label>
+          <input type="text" ngModel name="service3" class="form-control" id="service3" placeholder="Service 3" required>
+       </div>
+       <div class="form-group">
+        <label for="service3Charges">Service 3 Avarage Charges</label>
+        <input type="number" ngModel min="0" name="service3Charges" class="form-control" id="service3Charges" placeholder="Service 3 Avarage Charges" required>
+     </div>
+
+         <div class="form-group">
+          <label for="service4">Service 4</label>
+          <input type="text" ngModel name="service4" class="form-control" id="service4" placeholder="Service 4" required>
+       </div>
+       <div class="form-group">
+        <label for="service4Charges">Service 4 Avarage Charges</label>
+        <input type="number" ngModel min="0" name="service4Charges" class="form-control" id="service4Charges" placeholder="Service 4 Avarage Charges" required>
+     </div>
+
+         <div class="form-group">
+          <label for="service5">Service 5</label>
+          <input type="text" ngModel name="service5" class="form-control" id="service5" placeholder="Service 5" required>
+       </div>
+       <div class="form-group">
+        <label for="service5Charges">Service 5 Avarage Charges</label>
+        <input type="number" ngModel min="0" name="service5Charges" class="form-control" id="service5Charges" placeholder="Service 5 Avarage Charges" required>
+     </div>
+            <div class="modal-footer">
+               <button type="button" id="add-garage-form" class="btn btn-secondary" data-dismiss="modal">Close</button>
+               <button type="submit" class="btn btn-primary" >Save changes</button>
+            </div>
+            </form>
+         </div>
+      </div>
+    </div>
+    </div>
+</div>
+

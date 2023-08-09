@@ -1,0 +1,341 @@
+<div class="holder">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" style="color:white;" routerLink="{{routes.USER_HOME}}" routerLinkActive="active">Mechanics Repository</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor02">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+        </li>
+     </ul>
+       <form class="form-inline my-2 my-lg-0">
+        <input type="search" (ngModelChange)="searchGarages(key.value)" #key="ngModel" ngModel
+         name="key" id="searchName" class="form-control mr-sm-2" placeholder="Search..." required>
+     </form>
+    </div>
+  </nav>
+  <mat-toolbar class="page-header" role="heading">
+    <h1>Welcome, back!</h1>
+  </mat-toolbar>
+
+<!-- test -->
+  <!-- <div *ngFor="let service of serviceRequests">
+    <div>{{service?.requestedUserRequestedService}}</div>
+  </div>
+  <div *ngFor="let loggeduser of users">
+    <div *ngIf="user === loggeduser.userName">{{loggeduser.userName}}</div>
+      <div *ngIf="loggeduser.userName !== user" class="col-lg-12 col-md-12 col-xl-12">
+        <div class="alert alert-info" role="alert">
+          <h4 class="alert-heading">YOU'RE NOT REGISTERED!</h4>
+          <p>Please register to be a member of garage uber before accessing the services.</p>
+        </div>
+    </div>
+  </div> -->
+
+  <!-- list all garages -->
+  <div class="container" id="main-container">
+  <div class="row">
+    <div *ngFor="let garage of garages" class="col-md-6 col-xl-3">
+       <div class="card m-b-30">
+        <div class="card-body row">
+          <div class="col-6">
+             <a href=""><img src="{{garage?.garageLogoImageURL}}" alt="" class="img-fluid rounded-circle w-60"></a>
+          </div>
+          <div class="col-6 card-title align-self-center mb-0">
+             <h5>{{garage?.garageName}}</h5>
+             <p class="m-0">{{garage?.garageLocation}}</p>
+          </div>
+       </div>
+       <ul class="list-group list-group-flush">
+          <li class="list-group-item"><i class="fa fa-phone float-right"></i> Phone: {{garage?.garagePhone}}</li>
+          <li class="list-group-item"><i class="fa fa-envelpe float-right"></i> Email: {{garage?.garageEmail}}</li>
+          <li class="list-group-item"><i class="fa fa-envelpe float-right"></i> Mechanic: {{garage?.garageOwnerName}}</li>
+          <li class="list-group-item" *ngIf="garage.service1Charges !== 0"><i class="fa fa-phone float-right"></i> Service : {{garage?.service1}} <span style="float: right;">$.{{garage?.service1Charges}}</span></li>
+          <li class="list-group-item" *ngIf="garage.service2Charges !== 0"><i class="fa fa-phone float-right"></i> Service : {{garage?.service2}} <span style="float: right;">$.{{garage?.service2Charges}}</span></li>
+          <li class="list-group-item" *ngIf="garage.service3Charges !== 0"><i class="fa fa-phone float-right"></i> Service : {{garage?.service3}} <span style="float: right;">$.{{garage?.service3Charges}}</span></li>
+          <li class="list-group-item" *ngIf="garage.service4Charges !== 0"><i class="fa fa-phone float-right"></i> Service : {{garage?.service4}} <span style="float: right;">$.{{garage?.service4Charges}}</span></li>
+          <li class="list-group-item" *ngIf="garage.service5Charges !== 0"><i class="fa fa-phone float-right"></i> Service : {{garage?.service5}} <span style="float: right;">$.{{garage?.service5Charges}}</span></li>
+       </ul>
+          <div class="card-body">
+             <div class="float-right btn-group btn-group-sm">
+              <a  (click)="onOpenModal(garage, 'edit')" class="btn btn-primary tooltips" data-placement="top" data-original-title="Edit"> Request For The Mechanic Services
+                <i class="fa fa-pencil"></i> </a>
+             </div>
+
+
+          </div>
+       </div>
+    </div>
+  </div>
+
+  <!-- Add Service Modal -->
+<div class="modal fade" id="addServiceModal" tabindex="-1" role="dialog" aria-labelledby="addServiceModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+     <div class="modal-content">
+        <div class="modal-header">
+           <h5 class="modal-title" id="addServiceModalLabel">Send Mechanic Service Request</h5>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+           </button>
+        </div>
+        <div class="modal-body">
+           <p>Are you sure you want to send a request for mechanic services offerred by  <u>  company's name</u> located at <u>location</u>  ?</p>
+           <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+              <button  class="btn btn-danger" data-dismiss="modal">Yes</button>
+           </div>
+        </div>
+     </div>
+  </div>
+</div>
+  <!-- Edit Modal -->
+  <div class="modal fade" id="updateGarageModal" tabindex="-1" role="dialog" aria-labelledby="productupdateGarageModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title" id="updateGarageModalLabel">Send Mechanic Service Request</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+             </button>
+          </div>
+          <div class="modal-body">
+             <p>Are you sure you want to send a request for mechanic services offerred by <b>{{editGarage?.garageName}}</b> located at <b>{{editGarage?.garageLocation}}</b>  ?</p>
+           <div class="modal-footer">
+             <span *ngFor="let loggeduser of users">
+              <button type="button" class="btn btn-secondary" *ngIf="user === loggeduser.userName" data-dismiss="modal">No</button> &nbsp;
+              <button  class="btn btn-danger" *ngIf="user === loggeduser.userName" data-dismiss="modal" id="unchosen" style="background-color: darkslateblue; border: 0;" (click)="onSelectGarage(
+                loggeduser?.userName,
+                loggeduser?.userPhone,
+                loggeduser?.userLocation,
+                loggeduser?.userImageURL,
+                loggeduser?.userRequestedService,
+                loggeduser?.userCode,
+                editGarage?.garageName,
+                editGarage?.garageLocation,
+                editGarage?.garagePhone,
+                editGarage?.garageEmail,
+                editGarage?.garageOwnerName,
+                editGarage?.garageLogoImageURL,
+                editGarage?.garageCode,
+                0,
+                0,
+                'requested')">Yes</button>
+              </span>
+           </div>
+          </div>
+       </div>
+    </div>
+  </div>
+
+  <!-- Confirm Service Modal -->
+  <div class="modal fade" id="confirmGarageServiceModal" tabindex="-1" role="dialog" aria-labelledby="confirmGarageServiceModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title" id="confirmGarageServiceModalLabel"> Confirm Garage Service Request</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+             </button>
+          </div>
+          <div class="modal-body">
+            <p> <b> Garage Name:</b> {{confirmGarage?.requestedGarageName}} </p>
+            <p> <b> Mechanic Phone:</b> {{confirmGarage?.requestedGaragePhone}} </p>
+            <p> <b> Mechanic Email:</b> {{confirmGarage?.requestedGarageEmail}} </p>
+            <p> <b> Mechanic:</b> {{confirmGarage?.requestedGarageOwnerName}} </p>
+            <p> <b> Requested Service:</b> {{confirmGarage?.requestedUserRequestedService}} </p>
+            <p> <b> Waiting Time:</b> {{confirmGarage?.waitingTime}} minutes</p>
+            <p> <b> Service Charges:</b> ksh.{{confirmGarage?.requestedServiceCharges}} </p>
+            <hr>
+             <p>Are you sure you want to accept <b>{{confirmGarage?.requestedUserRequestedService}}</b> services from <b> {{confirmGarage?.requestedGarageName}}</b> ?</p>
+             <form #editForm="ngForm">
+              <input type="hidden" ngModel="{{confirmGarage?.id}}" name="id" class="form-control" id="id" placeholder="Id">
+              <input type="hidden" ngModel="{{confirmGarage?.serviceStatusCode}}" name="serviceStatusCode" class="form-control" id="serviceStatusCode" placeholder="Service Code">
+              <input type="hidden" ngModel="{{confirmGarage?.requestedUserImageURL}}" name="requestedUserImageURL" class="form-control" id="requestedUserImageURL" placeholder="Image URL">
+              <input type="hidden" ngModel="{{confirmGarage?.requestedUserCode}}" name="requestedUserCode" class="form-control" id="requestedUserCode" placeholder="User Code">
+              <input type="hidden" ngModel="{{confirmGarage?.requestedGarageName}}" name="requestedGarageName" class="form-control" id="requestedGarageName" placeholder="Garage Name">
+              <input type="hidden" ngModel="{{confirmGarage?.requestedGarageLocation}}" name="requestedGarageLocation" class="form-control" id="requestedGarageLocation" placeholder="Garage location">
+              <input type="hidden" ngModel="{{confirmGarage?.requestedGaragePhone}}" name="requestedGaragePhone" class="form-control" id="requestedGaragePhone" placeholder="Garage Phone">
+              <input type="hidden" ngModel="{{confirmGarage?.requestedGarageEmail}}" name="requestedGarageEmail" class="form-control" id="requestedGarageEmail" placeholder="garage Email">
+              <input type="hidden" ngModel="{{confirmGarage?.requestedGarageOwnerName}}" name="requestedGarageOwnerName" class="form-control" id="requestedGarageOwnerName" placeholder="Garage Owner Name">
+              <input type="hidden" ngModel="{{confirmGarage?.requestedGarageLogoImageURL}}" name="requestedGarageLogoImageURL" class="form-control" id="requestedGarageLogoImageURL" placeholder="Garage Logo">
+              <input type="hidden" ngModel="{{confirmGarage?.requestedGarageCode}}" name="requestedGarageCode" class="form-control" id="requestedGarageCode" placeholder="Garage Code">
+              <input type="hidden" ngModel="Confirmed" name="serviceStatus" class="form-control" id="serviceStatus" placeholder="Status">
+              <input type="hidden" ngModel="{{confirmGarage?.requestedUserPhone}}" name="requestedUserPhone" class="form-control" id="requestedUserPhone" placeholder="Requested User Phone">
+              <input type="hidden" ngModel="{{confirmGarage?.requestedUserLocation}}" name="requestedUserLocation" class="form-control" id="requestedUserLocation" placeholder="Requested User Location">
+              <input type="hidden" ngModel="{{confirmGarage?.requestedUserRequestedService}}" name="requestedUserRequestedService" class="form-control" id="requestedUserRequestedService" placeholder="Requested User Requested Service">
+              <input type="hidden" ngModel="{{confirmGarage?.requestedUserName}}" name="requestedUserName" class="form-control" id="requestedUserName" placeholder="Requested User Name">
+              <input type="hidden" ngModel="{{confirmGarage?.requestedServiceCharges}}" name="requestedServiceCharges" class="form-control" id="requestedServiceCharges" placeholder="Requested Service Charges">
+              <input type="hidden" ngModel="{{confirmGarage?.waitingTime}}" name="waitingTime" class="form-control" id="waitingTime" placeholder="Waiting Time">
+
+              <div class="modal-footer">
+                 <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">Close</button>
+                 <button (click)="onUpdateRequest(editForm.value)" data-dismiss="modal" class="btn btn-danger" style="background-color: cadetblue; border: 0;">Yes</button>
+              </div>
+           </form>
+          </div>
+       </div>
+    </div>
+  </div>
+
+  <!-- Confirm mechanic arrival-->
+  <div class="modal fade" id="confirmMechanicArrivalModal" tabindex="-1" role="dialog" aria-labelledby="confirmMechanicArrivalModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title" id="confirmMechanicArrivalModalLabel">Confirm Mechanic Arrival</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+             </button>
+          </div>
+          <div class="modal-body">
+            <p> <b> Garage Name:</b> {{confirmMechanic?.requestedGarageName}} </p>
+            <p> <b> Mechanic Phone:</b> {{confirmMechanic?.requestedGaragePhone}} </p>
+            <p> <b> Mechanic Email:</b> {{confirmMechanic?.requestedGarageEmail}} </p>
+            <p> <b> Mechanic:</b> {{confirmMechanic?.requestedGarageOwnerName}} </p>
+            <p> <b> Requested Service:</b> {{confirmMechanic?.requestedUserRequestedService}} </p>
+            <p> <b> Waiting Time:</b> {{confirmMechanic?.waitingTime}} minutes</p>
+            <p> <b> Service Charges:</b> ksh.{{confirmMechanic?.requestedServiceCharges}} </p>
+            <p>{{confirmMechanic?.serviceStatus}}</p>
+            <hr>
+             <p>Has your mechanic from <b> {{confirmMechanic?.requestedGarageName}} </b> arrived ?</p>
+             <form #editMechanicForm="ngForm">
+              <input type="hidden" ngModel="{{confirmMechanic?.id}}" name="id" class="form-control" id="id" placeholder="Id">
+              <input type="hidden" ngModel="{{confirmMechanic?.serviceStatusCode}}" name="serviceStatusCode" class="form-control" id="serviceStatusCode" placeholder="Service Code">
+              <input type="hidden" ngModel="{{confirmMechanic?.requestedUserImageURL}}" name="requestedUserImageURL" class="form-control" id="requestedUserImageURL" placeholder="Image URL">
+              <input type="hidden" ngModel="{{confirmMechanic?.requestedUserCode}}" name="requestedUserCode" class="form-control" id="requestedUserCode" placeholder="User Code">
+              <input type="hidden" ngModel="{{confirmMechanic?.requestedGarageName}}" name="requestedGarageName" class="form-control" id="requestedGarageName" placeholder="Garage Name">
+              <input type="hidden" ngModel="{{confirmMechanic?.requestedGarageLocation}}" name="requestedGarageLocation" class="form-control" id="requestedGarageLocation" placeholder="Garage location">
+              <input type="hidden" ngModel="{{confirmMechanic?.requestedGaragePhone}}" name="requestedGaragePhone" class="form-control" id="requestedGaragePhone" placeholder="Garage Phone">
+              <input type="hidden" ngModel="{{confirmMechanic?.requestedGarageEmail}}" name="requestedGarageEmail" class="form-control" id="requestedGarageEmail" placeholder="garage Email">
+              <input type="hidden" ngModel="{{confirmMechanic?.requestedGarageOwnerName}}" name="requestedGarageOwnerName" class="form-control" id="requestedGarageOwnerName" placeholder="Garage Owner Name">
+              <input type="hidden" ngModel="{{confirmMechanic?.requestedGarageLogoImageURL}}" name="requestedGarageLogoImageURL" class="form-control" id="requestedGarageLogoImageURL" placeholder="Garage Logo">
+              <input type="hidden" ngModel="{{confirmMechanic?.requestedGarageCode}}" name="requestedGarageCode" class="form-control" id="requestedGarageCode" placeholder="Garage Code">
+              <input type="hidden" ngModel="Arrived" name="serviceStatus" class="form-control" id="serviceStatus" placeholder="Status">
+              <input type="hidden" ngModel="{{confirmMechanic?.requestedUserPhone}}" name="requestedUserPhone" class="form-control" id="requestedUserPhone" placeholder="Requested User Phone">
+              <input type="hidden" ngModel="{{confirmMechanic?.requestedUserLocation}}" name="requestedUserLocation" class="form-control" id="requestedUserLocation" placeholder="Requested User Location">
+              <input type="hidden" ngModel="{{confirmMechanic?.requestedUserRequestedService}}" name="requestedUserRequestedService" class="form-control" id="requestedUserRequestedService" placeholder="Requested User Requested Service">
+              <input type="hidden" ngModel="{{confirmMechanic?.requestedUserName}}" name="requestedUserName" class="form-control" id="requestedUserName" placeholder="Requested User Name">
+              <input type="hidden" ngModel="{{confirmMechanic?.requestedServiceCharges}}" name="requestedServiceCharges" class="form-control" id="requestedServiceCharges" placeholder="Requested Service Charges">
+              <input type="hidden" ngModel="{{confirmMechanic?.waitingTime}}" name="waitingTime" class="form-control" id="waitingTime" placeholder="Waiting Time">
+
+              <div class="modal-footer">
+                 <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">Close</button>
+                 <button (click)="onConfirmMechanic(editMechanicForm.value)" data-dismiss="modal" class="btn btn-danger" style="background-color: cadetblue; border: 0;">Yes</button>
+              </div>
+           </form>
+          </div>
+       </div>
+    </div>
+  </div>
+
+  <!-- Payment -->
+  <div class="modal fade" id="confirmPaymentModal" tabindex="-1" role="dialog" aria-labelledby="confirmPaymentModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title" id="confirmPaymentModalLabel">Confirm You Have Paid The Mechanic</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+             </button>
+          </div>
+          <div class="modal-body">
+            <p> <b> Garage Name:</b> {{confirmPayment?.requestedGarageName}} </p>
+            <p> <b> Mechanic Phone:</b> {{confirmPayment?.requestedGaragePhone}} </p>
+            <p> <b> Mechanic Email:</b> {{confirmPayment?.requestedGarageEmail}} </p>
+            <p> <b> Mechanic:</b> {{confirmPayment?.requestedGarageOwnerName}} </p>
+            <p> <b> Requested Service:</b> {{confirmPayment?.requestedUserRequestedService}} </p>
+            <p> <b> Waiting Time:</b> {{confirmPayment?.waitingTime}} minutes</p>
+            <p> <b> Service Charges:</b> ksh.{{confirmPayment?.requestedServiceCharges}} </p>
+            <p>{{confirmPayment?.serviceStatus}}</p>
+            <hr>
+             <p>Confirm you have made payment of <b> ksh.{{confirmPayment?.requestedServiceCharges}}</b> for mechanic services offered to you by <b> {{confirmPayment?.requestedGarageName}} </b> </p>
+             <form #editPaymentForm="ngForm">
+              <input type="hidden" ngModel="{{confirmPayment?.id}}" name="id" class="form-control" id="id" placeholder="Id">
+              <input type="hidden" ngModel="{{confirmPayment?.serviceStatusCode}}" name="serviceStatusCode" class="form-control" id="serviceStatusCode" placeholder="Service Code">
+              <input type="hidden" ngModel="{{confirmPayment?.requestedUserImageURL}}" name="requestedUserImageURL" class="form-control" id="requestedUserImageURL" placeholder="Image URL">
+              <input type="hidden" ngModel="{{confirmPayment?.requestedUserCode}}" name="requestedUserCode" class="form-control" id="requestedUserCode" placeholder="User Code">
+              <input type="hidden" ngModel="{{confirmPayment?.requestedGarageName}}" name="requestedGarageName" class="form-control" id="requestedGarageName" placeholder="Garage Name">
+              <input type="hidden" ngModel="{{confirmPayment?.requestedGarageLocation}}" name="requestedGarageLocation" class="form-control" id="requestedGarageLocation" placeholder="Garage location">
+              <input type="hidden" ngModel="{{confirmPayment?.requestedGaragePhone}}" name="requestedGaragePhone" class="form-control" id="requestedGaragePhone" placeholder="Garage Phone">
+              <input type="hidden" ngModel="{{confirmPayment?.requestedGarageEmail}}" name="requestedGarageEmail" class="form-control" id="requestedGarageEmail" placeholder="garage Email">
+              <input type="hidden" ngModel="{{confirmPayment?.requestedGarageOwnerName}}" name="requestedGarageOwnerName" class="form-control" id="requestedGarageOwnerName" placeholder="Garage Owner Name">
+              <input type="hidden" ngModel="{{confirmPayment?.requestedGarageLogoImageURL}}" name="requestedGarageLogoImageURL" class="form-control" id="requestedGarageLogoImageURL" placeholder="Garage Logo">
+              <input type="hidden" ngModel="{{confirmPayment?.requestedGarageCode}}" name="requestedGarageCode" class="form-control" id="requestedGarageCode" placeholder="Garage Code">
+              <input type="hidden" ngModel="Paid" name="serviceStatus" class="form-control" id="serviceStatus" placeholder="Status">
+              <input type="hidden" ngModel="{{confirmPayment?.requestedUserPhone}}" name="requestedUserPhone" class="form-control" id="requestedUserPhone" placeholder="Requested User Phone">
+              <input type="hidden" ngModel="{{confirmPayment?.requestedUserLocation}}" name="requestedUserLocation" class="form-control" id="requestedUserLocation" placeholder="Requested User Location">
+              <input type="hidden" ngModel="{{confirmPayment?.requestedUserRequestedService}}" name="requestedUserRequestedService" class="form-control" id="requestedUserRequestedService" placeholder="Requested User Requested Service">
+              <input type="hidden" ngModel="{{confirmPayment?.requestedUserName}}" name="requestedUserName" class="form-control" id="requestedUserName" placeholder="Requested User Name">
+              <input type="hidden" ngModel="{{confirmPayment?.requestedServiceCharges}}" name="requestedServiceCharges" class="form-control" id="requestedServiceCharges" placeholder="Requested Service Charges">
+              <input type="hidden" ngModel="{{confirmPayment?.waitingTime}}" name="waitingTime" class="form-control" id="waitingTime" placeholder="Waiting Time">
+
+              <div class="modal-footer">
+                 <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">Close</button>
+                 <button (click)="onConfirmPayment(editPaymentForm.value)" data-dismiss="modal" class="btn btn-danger" style="background-color: cadetblue; border: 0;">Confirm</button>
+              </div>
+           </form>
+          </div>
+       </div>
+    </div>
+  </div>
+</div>
+
+<!-- requests awaiting confirmation from garages servers -->
+<div class="active-deliveries" style="margin-top: 10em;">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom: .1em;">
+    <a class="navbar-brand"  routerLink="{{routes.USER_HOME}}" routerLinkActive="active" style="color:white;">Active Mechanic Services Requests & Deliveries</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor02">
+       <ul class="navbar-nav mr-auto">
+       </ul>
+       <form class="form-inline my-2 my-lg-0">
+          <input type="search" (ngModelChange)="searchRequests(key.value)" #key="ngModel"  ngModel
+           name="key" id="searchName" class="form-control mr-sm-2" placeholder="Search requests.." required>
+       </form>
+    </div>
+  </nav>
+  <div class="onroad-orders" id="deliveries-container" id="main-container">
+
+    <table >
+      <caption>my dad</caption>
+
+      <tr><th>Garage Name</th><th>Mechanic Location</th><th>Mechanic Phone</th><th>Mechanic Email</th><th>Garage Mechanic Name</th>
+        <th>Requested Service</th><th>Your Location</th><th>Status</th> <th></th> <th></th>
+      </tr>
+      <tr *ngFor= "let service of serviceRequests" ng-mousemove="getItemId(service?.id)"  >
+        <td *ngIf="service.requestedUserName === user">{{service?.requestedGarageName}}</td>
+        <td *ngIf="service.requestedUserName === user">{{service?.requestedGarageLocation}}</td>
+        <td *ngIf="service.requestedUserName === user">{{service?.requestedGaragePhone}}</td>
+        <td *ngIf="service.requestedUserName === user">{{service?.requestedGarageEmail}}</td>
+        <td *ngIf="service.requestedUserName === user">{{service?.requestedGarageOwnerName}}</td>
+        <td *ngIf="service.requestedUserName === user">{{service?.requestedUserRequestedService}}</td>
+        <td *ngIf="service.requestedUserName === user">{{service?.requestedUserLocation}}</td>
+        <td *ngIf="service.requestedUserName === user">{{service?.serviceStatus}}</td>
+        <td *ngIf="service.requestedUserName === user && (service.serviceStatus === 'Accepted')"> <a (click)="onOpenConfirmModal(service, 'confirm')" class="btn btn-primary tooltips" data-placement="top" data-original-title="Edit" style="background-color: transparent; border: 0px;" class="btn btn-secondary tooltips" data-placement="top" data-original-title="Delete"><mat-icon style="color: darkblue;" >view_headline</mat-icon></a></td>
+        <td *ngIf="service.requestedUserName === user && (service.serviceStatus === 'requested')" style="color: brown; font-size: smaller;" ><b>Pending Appoval</b></td>
+        <td *ngIf="service.requestedUserName === user && (service.serviceStatus === 'Confirmed')"> <a (click)="onOpenConfirmModal(service, 'arrived')" class="btn btn-primary tooltips" data-placement="top" data-original-title="Edit" style="background-color: transparent; border: 0px;" class="btn btn-secondary tooltips" data-placement="top" data-original-title="Delete"><mat-icon style="color: greenyellow;">bubble_chart</mat-icon></a></td>
+        <td *ngIf="service.requestedUserName === user && (service.serviceStatus === 'Arrived')"> <a (click)="onOpenConfirmModal(service, 'payed')" class="btn btn-primary tooltips" data-placement="top" data-original-title="Edit" style="background-color: transparent; border: 0px;" class="btn btn-secondary tooltips" data-placement="top" data-original-title="Delete"><mat-icon style="color: darkolivegreen;"> money</mat-icon></a></td>
+        <td *ngIf="service.requestedUserName === user && (service.serviceStatus === 'Completed')"> <a (click)="onOpenConfirmModal(service, 'payed')" class="btn btn-primary tooltips" data-placement="top" data-original-title="Edit" style="background-color: transparent; border: 0px; font-size: small;" class="btn btn-secondary tooltips" data-placement="top" data-original-title="Delete" ><b style="color: navajowhite;">Write a review</b></a></td>
+        <td *ngIf="service.requestedUserName === user && (service.serviceStatus === 'Paid')"> <a (click)="onOpenConfirmModal(service, 'payed')" class="btn btn-primary tooltips" data-placement="top" data-original-title="Edit" style="background-color: transparent; border: 0px; font-size: small;" class="btn btn-secondary tooltips" data-placement="top" data-original-title="Delete" ><b style="color: navy;">Confirm payment</b></a></td>
+        <td *ngIf="service.requestedUserName === user && (service.serviceStatus === 'Paid')"> <a (click)="onOpenConfirmModal(service, 'pay')" class="btn btn-primary tooltips" data-placement="top" data-original-title="Edit" style="background-color: transparent; border: 0px; font-size: small;" class="btn btn-secondary tooltips" data-placement="top" data-original-title="Delete" ><a routerLink="{{routes.STRIPE_PAYMENT}}" target="_blank" routerLinkActive="active" ><i class="material-icons">payment</i></a></a></td>
+        <td *ngIf="service.requestedUserName === user"> <a (click)="onDeleteRequest(service?.id, service)" style="background-color: transparent; border: 0px;" class="btn btn-secondary tooltips" data-placement="top" data-original-title="Delete"><mat-icon>delete_sweep</mat-icon></a></td>
+      </tr>
+    </table>
+
+  <!-- Notification for no deliveries -->
+  <div *ngIf="serviceRequests?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
+    <div class="alert alert-info" role="alert">
+      <h4 class="alert-heading">NO ACTIVE REQUESTS!</h4>
+      <p>No on-going active service requests were found.</p>
+    </div>
+    </div>
+  </div>
+</div>
+
+
+</div>

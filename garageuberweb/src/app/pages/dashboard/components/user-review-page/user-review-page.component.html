@@ -1,0 +1,133 @@
+<div class="holder">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <mat-toolbar class="page-header" role="heading">
+    <h1>Welcome, back!</h1>
+  </mat-toolbar>
+
+  <!-- requests awaiting confirmation from garages servers -->
+<div class="active-deliveries">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom: .1em;">
+    <a class="navbar-brand"  routerLink="{{routes.USER_HOME}}" routerLinkActive="active" style="color:white;">Active Garage Request Orders & Deliveries</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor02">
+       <ul class="navbar-nav mr-auto">
+       </ul>
+       <form class="form-inline my-2 my-lg-0">
+          <input type="search" (ngModelChange)="searchRequests(key.value)" #key="ngModel"  ngModel
+           name="key" id="searchName" class="form-control mr-sm-2" placeholder="Search requests.." required>
+       </form>
+    </div>
+  </nav>
+  <div class="onroad-orders" id="deliveries-container" id="main-container">
+
+    <table >
+      <caption></caption>
+      <tr><th>Garage Name</th><th>Garage Location</th><th>Garage Phone</th><th>Garage Email</th><th>Garage Owner Name</th>
+        <th>Requested Service</th><th>Your Location</th><th>Status</th> <th></th> <th></th>
+      </tr>
+      <tr *ngFor= "let service of serviceRequests" ng-mousemove="getItemId(service?.id)"  >
+        <td *ngIf="service.requestedUserName === user && (service.serviceStatus === 'Completed')">{{service?.requestedGarageName}}</td>
+        <td *ngIf="service.requestedUserName === user && (service.serviceStatus === 'Completed')">{{service?.requestedGarageLocation}}</td>
+        <td *ngIf="service.requestedUserName === user && (service.serviceStatus === 'Completed')">{{service?.requestedGaragePhone}}</td>
+        <td *ngIf="service.requestedUserName === user && (service.serviceStatus === 'Completed')">{{service?.requestedGarageEmail}}</td>
+        <td *ngIf="service.requestedUserName === user && (service.serviceStatus === 'Completed')">{{service?.requestedGarageOwnerName}}</td>
+        <td *ngIf="service.requestedUserName === user && (service.serviceStatus === 'Completed')">{{service?.requestedUserRequestedService}}</td>
+        <td *ngIf="service.requestedUserName === user && (service.serviceStatus === 'Completed')">{{service?.requestedUserLocation}}</td>
+        <td *ngIf="service.requestedUserName === user && (service.serviceStatus === 'Completed')">{{service?.serviceStatus}}</td>
+        <td *ngIf="service.requestedUserName === user && (service.serviceStatus === 'Completed')"> <a (click)="onOpenConfirmModal(service, 'completed')" class="btn btn-primary tooltips" data-placement="top" data-original-title="Edit" style="background-color: transparent; border: 0px; font-size: small;" class="btn btn-secondary tooltips" data-placement="top" data-original-title="Delete" ><b style="color: navajowhite;">Write a review</b></a></td>
+      </tr>
+    </table>
+
+    <br/>
+
+
+    <!-- leave a review -->
+  <div class="modal fade" id="writeReviewModal" tabindex="-1" role="dialog" aria-labelledby="writeReviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title" id="writeReviewModalLabel">Write a review for  <b>{{confirmPayment?.requestedGarageName}}</b></h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+             </button>
+          </div>
+          <div class="modal-body">
+            <p> <b> Garage Name:</b> {{confirmPayment?.requestedGarageName}} <b style="margin-left: 10em;"> Garage Phone:</b> {{confirmPayment?.requestedGaragePhone}} </p>
+            <p> <b> Garage Email:</b> {{confirmPayment?.requestedGarageEmail}} <b style="margin-left: 3.4em;"> Owner:</b> {{confirmPayment?.requestedGarageOwnerName}}</p>
+            <p> <b> Waiting Time:</b> {{confirmPayment?.waitingTime}} minutes <b style="margin-left: 7em;"> Service Charges:</b> ksh.{{confirmPayment?.requestedServiceCharges}}</p>
+            <p> <b> Requested Service:</b> {{confirmPayment?.requestedUserRequestedService}} </p>
+            <hr>
+            <form #addForm="ngForm" (ngSubmit)="onAddReview(addForm)">
+              <div class="form-group">
+                 <label for="reviewingUserName">User Name</label>
+                 <input type="text" ngModel name="reviewingUserName" class="form-control" id="reviewingUserName" placeholder="Reviewing User Name" value="{{confirmPayment?.requestedUserName}}" required>
+              </div>
+              <div class="form-group">
+                <label for="reviewedGarageName">Garage Name</label>
+                <input type="text" ngModel name="reviewedGarageName" class="form-control" id="reviewedGarageName" placeholder="Reviewed Garage Name" value="{{confirmPayment?.requestedGarageName}}" required>
+              </div>
+             <div class="form-group">
+              <label for="reviewedGarageOwner">Garage Owner</label>
+              <input type="text" ngModel name="reviewedGarageOwner" class="form-control" id="reviewedGarageOwner" placeholder="Reviewed Garage Owner" value="{{confirmPayment?.requestedGarageOwnerName}}" required>
+           </div>
+           <div class="form-group">
+            <label for="serviceOffered">Requested Service</label>
+            <input type="text" ngModel name="serviceOffered" class="form-control" id="serviceOffered" placeholder="Requested Service" value="{{confirmPayment?.requestedUserRequestedService}}" required>
+         </div>
+           <div class="form-group">
+            <label for="reviewingUserImageUrl">Your Image URL</label>
+            <input type="text" ngModel name="reviewingUserImageUrl" class="form-control" id="reviewingUserImageUrl" placeholder="Image URL" value="{{confirmPayment?.requestedUserImageURL}}" required>
+         </div>
+              <div class="form-group">
+                <label for="reviewedComment">Review Message</label>
+                <input type="text" ngModel name="reviewedComment" class="form-control" id="reviewedComment" placeholder="Write here your review..." required>
+             </div>
+             <div class="form-group">
+              <label for="numOfStars">Stars <span style="color: brown; font-size: smaller;">Rate from 1 - 10</span> </label>
+              <input type="number" min="0" max="10" ngModel name="numOfStars" class="form-control" id="numOfStars" placeholder="How many stars would you give" required>
+           </div>
+              <div class="modal-footer">
+                 <button type="button" id="add-user-form" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                 <button [disabled]="addForm.invalid" type="submit" class="btn btn-primary" >Submit Review</button>
+              </div>
+              </form>
+          </div>
+       </div>
+    </div>
+  </div>
+
+  <!-- Notification for no deliveries -->
+  <div *ngIf="serviceRequests?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
+    <div class="alert alert-info" role="alert">
+      <h4 class="alert-heading">NO ACTIVE REQUESTS!</h4>
+      <p>No on-going active service requests were found.</p>
+    </div>
+    </div>
+  </div>
+
+  <section class="reviews" id="reviews">
+    <h1 class="heading" style="font-weight: 200; text-align: center;"> Garage Uber's <span>reviews</span> </h1>
+    <div class="swiper review-slider">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide box" *ngFor="let review of reviews">
+          <img src="{{review?.reviewingUserImageUrl}}" alt="">
+          <div class="content">
+            <p>Got served by : {{review?.reviewedGarageName}}</p>
+              <p>{{review?.reviewedComment}}</p>
+              <h3>{{review?.reviewingUserName}}</h3>
+              <div class="stars">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star-half-alt"></i>
+              </div>
+          </div>
+      </div>
+      </div>
+    </div>
+  </section>
+</div>

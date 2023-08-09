@@ -1,0 +1,140 @@
+<!-- status update -->
+<div class="status-update">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom: 3em;">
+    <a class="navbar-brand" style="color:white;">Active Product Orders & Deliveries</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor02">
+       <ul class="navbar-nav mr-auto">
+       </ul>
+    </div>
+  </nav>
+  <!-- list -->
+  <div class="container" id="main-container">
+    <div class="row">
+      <div *ngFor="let delivery of deliveries" class="col-md-6 col-xl-3">
+         <div class="card m-b-30">
+            <div class="card-body row">
+               <div class="col-6">
+                 <p><i class="fa  fa-truck" style="font-size: x-large" aria-hidden="true"></i></p>
+                <p>{{delivery?.productName}}</p>
+               </div>
+               <div class="col-6 card-title align-self-center mb-0">
+                  <h5>{{delivery?.customerName}}</h5>
+                  <p class="m-0">{{delivery?.customerPhone}}</p>
+               </div>
+            </div>
+            <ul class="list-group list-group-flush">
+               <li class="list-group-item">Category : {{delivery?.productCategory}}</li>
+               <li class="list-group-item">Delivery Location : {{delivery?.productDeliveryLocation}}</li>
+               <li class="list-group-item">Route ID : {{delivery?.id}}</li>
+               <li class="list-group-item">Supplier Name : {{delivery?.supplierName}}</li>
+               <li class="list-group-item">Supplier Email : {{delivery?.supplierEmail}}</li>
+               <li class="list-group-item">Supplier Location : {{delivery?.supplierLocation}}</li>
+               <li class="list-group-item">Supplier Phone : {{delivery?.supplierPhone}}</li>
+               <li class="list-group-item">Product ID : {{delivery?.productId}}</li>
+               <li class="list-group-item">Route Code : {{delivery?.routeCode}}</li>
+               <li class="list-group-item">Supplier ID : {{delivery?.supplierId}}</li>
+            </ul>
+            <div class="card-body">
+              <!-- <a (click)="onSelectSupplier" (loaded)="getId(product?.id)">
+                 <button id="unselected" (click)="onSelectProduct(product?.customerName, product?.customerPhone,
+                product?.productName,
+                product?.productCategory,
+                product?.productDeliveryLocation,
+                product?.id )" class="btn btn-primary select-btn">Assign to {{selectedSupplierName}}</button>
+              </a> -->
+              <a (click)="onSelectDelivery"><button class="btn btn-primary select-btn send" (click)="onSelectDelivery(delivery?.id,delivery?.productId,delivery?.customerName,
+                delivery?.customerPhone,delivery?.productName,delivery?.productCategory,delivery?.productDeliveryLocation,delivery?.routeCode,
+                delivery?.supplierId,delivery?.supplierName,delivery?.supplierEmail,delivery?.supplierLocation,delivery?.supplierPhone)">Delivered</button></a>
+              <!-- <a href="#"><button class="btn btn-primary select-btn pending">Pending</button></a> -->
+              <a (click)="onSelectDelivery"><button class="btn btn-primary select-btn declined" (click)="onSelectCancel(delivery?.id,delivery?.productId,delivery?.customerName,
+                delivery?.customerPhone,delivery?.productName,delivery?.productCategory,delivery?.productDeliveryLocation,delivery?.routeCode,
+                delivery?.supplierId,delivery?.supplierName,delivery?.supplierEmail,delivery?.supplierLocation,delivery?.supplierPhone)">Cancelled</button></a>
+            </div>
+         </div>
+      </div>
+    </div>
+  </div>
+
+   <!-- Notification for no deliveries -->
+   <div *ngIf="deliveries?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
+    <div class="alert alert-info" role="alert">
+      <h4 class="alert-heading">NO ACTIVE DELIVERIES!</h4>
+      <p>No on-going deliveries were found.</p>
+    </div>
+    </div>
+
+
+  <div class="onroad-orders" id="deliveries-container">
+    <mat-card class="material-table">
+      <mat-card-title class="material-table__header">
+
+      </mat-card-title>
+
+  </mat-card>
+</div>
+
+
+<!-- status tables -->
+<div class="active-deliveries">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom: 3em;">
+    <a class="navbar-brand" style="color:white;">Active Product Orders, Deliveries & Status</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor02">
+       <ul class="navbar-nav mr-auto">
+       </ul>
+    </div>
+  </nav>
+  <div class="onroad-orders" id="deliveries_status-container">
+    <mat-card class="material-table">
+      <mat-card-title class="material-table__header">
+        <h5 class="material-table__title">Product Update Table</h5>
+        <app-settings-menu></app-settings-menu>
+      </mat-card-title>
+      <mat-card-content >
+    <table>
+      <tr><th>Product Name</th><th>Customer Name</th><th>Customer Phone</th><th>Product Category</th><th>Product Delivery Location</th>
+        <th>Supplier's Name</th><th>Supplier's Email</th><th>Supplier's Phone</th> <th>Status</th> <th></th>
+      </tr>
+      <tr *ngFor= "let delivery of deliveryStatus" ng-mousemove="getItemId(delivery?.productId)">
+        <td>{{delivery?.productName}}</td><td>{{delivery?.customerName}}</td><td>{{delivery?.customerPhone}}</td><td>{{delivery?.productCategory}}</td>
+        <td>{{delivery?.productDeliveryLocation}}</td><td>{{delivery?.supplierName}}</td><td>{{delivery?.supplierEmail}}</td><td>{{delivery?.supplierPhone}}</td>
+        <span class="material-table__content-badge">
+        <td *ngIf="delivery.status === 'pending'" class="material-table__content-badge pending">{{delivery?.status}}</td>
+         <td *ngIf="delivery.status === 'delivered'" class="material-table__content-badge send">{{delivery?.status}}</td>
+         <td *ngIf="delivery.status === 'cancelled'" class="material-table__content-badge declined">{{delivery?.status}}</td>
+        </span>
+        <td> <a (click)="onDeleteDeliveryStatus(delivery?.id, delivery)" style="background-color: transparent; border: 0px;" class="btn btn-secondary tooltips" data-placement="top" data-original-title="Delete"><mat-icon>delete_sweep</mat-icon></a></td>
+      </tr>
+    </table>
+  </mat-card-content>
+  </mat-card>
+  </div>
+
+<!-- <mat-card class="material-table">
+  <mat-card-title class="material-table__header">
+    <h5 class="material-table__title">Product Update Table</h5>
+    <app-settings-menu></app-settings-menu>
+  </mat-card-title>
+  <mat-card-content class="material-table__content">
+    <table mat-table [dataSource]="dataSource" class="material-table__table">
+      <ng-container *ngFor="let column of displayedColumns" matColumnDef="{{column}}" class="material-table__table-row">
+        <th mat-header-cell *matHeaderCellDef class="material-table__table-row-title">{{column}}</th>
+        <td mat-cell *matCellDef="let element" class="material-table__table-content">
+          <span *ngIf="column !== 'status'">{{element[column]}}</span>
+          <div *ngIf="column === 'status'" class="material-table__content-badge" [ngClass]="element[column]">
+            <span>{{element[column]}}</span>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </mat-card-content>
+</mat-card> -->
+

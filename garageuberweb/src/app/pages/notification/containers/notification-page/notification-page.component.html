@@ -1,0 +1,209 @@
+<app-layout>
+  <mat-toolbar class="page-header" role="heading">
+    <h1>Sells Dashboard</h1>
+  </mat-toolbar>
+
+  <div class="suppliers" style="visibility: visible;">
+  <nav class="navbar navbar-expand-lg  ">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor02">
+      <ul class="navbar-nav mr-auto">
+
+      </ul>
+       <form class="form-inline my-2 my-lg-0">
+          <input type="search" (ngModelChange)="searchSuppliers(key.value)" #key="ngModel" ngModel
+           name="key" id="searchName" class="form-control mr-sm-2" placeholder="Search suppliers..." required>
+       </form>
+    </div>
+  </nav>
+
+
+  <!-- listing all suppliers -->
+  <mat-card-content class="typography-content">
+    <div class="typography-content__wrapper">
+      <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <div class="container" id="main-container">
+    <div class="row">
+        <div *ngFor = "let supplier of suppliers" class="col-md-6 col-xl-3">
+            <div class="card m-b-30">
+                <div class="card-body row">
+                    <div class="col-6">
+                        <a href=""><img src="{{supplier?.imageUrl}}" alt="" class="img-fluid rounded-circle w-80"></a>
+                    </div>
+                    <div class="col-6 card-title align-self-center mb-0">
+                        <h5>{{supplier?.name}}</h5>
+                        <p class="m-0">{{supplier?.location}}</p>
+                    </div>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><i class="fa fa-envelope float-right"></i>Email : {{supplier?.email}} <a href="#"> {{supplier.email}} </a></li>
+                    <li class="list-group-item"><i class="fa fa-phone float-right"></i>Phone : {{supplier?.phone}}</li>
+                </ul>
+                <div class="card-body">
+                <a (click)="onSelectSupplier">  <button id="unchosen" (click)="onSelectSupplier(
+                    supplier?.name,
+                    supplier?.email,
+                    supplier?.location,
+                    supplier?.phone,
+                    supplier?.id)" class="btn btn-primary select-btn">Select</button>
+                  </a>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- end of suppliers list -->
+</div>
+    </div>
+  </mat-card-content>
+</div>
+
+<!-- listing all products -->
+<div  class="products">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom: 3em;">
+    <a class="navbar-brand" style="color:white;">Products & Order Details</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor02">
+       <ul class="navbar-nav mr-auto">
+       </ul>
+       <form class="form-inline my-2 my-lg-0">
+          <input type="search" (ngModelChange)="searchProducts(key.value)" #key="ngModel"  ngModel
+           name="key" id="searchName" class="form-control mr-sm-2" placeholder="Search products..." required>
+       </form>
+    </div>
+  </nav>
+
+  <div class="container" id="main-container">
+  <div class="row">
+    <div *ngFor="let product of products" class="col-md-6 col-xl-3">
+       <div class="card m-b-30">
+          <div class="card-body row">
+             <div class="col-6">
+              <p>{{product?.productName}}</p>
+             </div>
+             <div class="col-6 card-title align-self-center mb-0">
+                <h5>{{product?.customerName}}</h5>
+                <p class="m-0">{{product?.customerPhone}}</p>
+             </div>
+          </div>
+          <ul class="list-group list-group-flush">
+             <li class="list-group-item"><i class="fa fa-envelope float-right"></i>Category : {{product?.productCategory}}</li>
+             <li class="list-group-item"><i class="fa fa-phone float-right"></i>Delivery Location : {{product?.productDeliveryLocation}}</li>
+          </ul>
+          <div class="card-body">
+            <a (click)="onSelectSupplier" (loaded)="getId(product?.id)">  <button id="unselected" (click)="onSelectProduct(product?.customerName, product?.customerPhone,
+              product?.productName,
+              product?.productCategory,
+              product?.productDeliveryLocation,
+              product?.id )" class="btn btn-primary select-btn">Assign to {{selectedSupplierName}}</button>
+            </a>
+          </div>
+       </div>
+    </div>
+  </div>
+
+</div>
+</div>
+<!-- end the products page -->
+
+<!-- Deliveries -->
+<mat-card-content class="typography-content">
+<div class="order-items">
+  <h6>Supplier & Order Item Details</h6>
+
+  <div class="supplier-details">
+   <caption> <h5>Supplier Details</h5> </caption>
+    <table>
+      <tr><th>Name</th> <td>{{selectedSupplierName}}</td>
+        <th>Email</th> <td>{{selectedSupplierEmail}}</td></tr>
+      <tr><th>Phone</th> <td>{{selectedSupplierPhone}}</td>
+        <th>ID</th> <td>{{selectedSupplierID}}</td></tr>
+        <tr><th>Location</th> <td>{{selectedSupplierLocation}}</td> <th></th><td></td></tr>
+    </table>
+  </div>
+
+  <div class="cart-items">
+    <h6>Order Items and Details</h6>
+    <table>
+      <tr><th>Product ID</th><th>Product Name</th><th>Customer Names</th><th>Customer Phone</th><th>Product Category</th><th>Product Delivery Location</th></tr>
+      <tr><td>{{selectedProductId}}</td><td>{{selectedProductName}}</td><td>{{selectedCustomerName}}</td>
+        <td>{{selectedCustomerPhone}}</td><td>{{selectedProductCategory}}</td><td>{{selectedProductDeliveryLocation}}</td></tr>
+    </table>
+  </div>
+  <div class="card-body">
+    <a (click)="onDeliverConfirmation()">  <button (click)="onSelectProduct" type="submit" class="btn btn-primary select-btn">Approve</button>
+    </a>
+  </div>
+</div>
+</mat-card-content>
+<hr>
+
+<!-- <div *ngFor= "let delivery of deliveries">
+  <p>{{delivery?.customerName}}</p>
+</div> -->
+<div class="active-deliveries">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom: 3em;">
+    <a class="navbar-brand" style="color:white;">Active Product Orders & Deliveries</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor02">
+       <ul class="navbar-nav mr-auto">
+       </ul>
+       <form class="form-inline my-2 my-lg-0">
+          <input type="search" (ngModelChange)="searchProducts(key.value)" #key="ngModel"  ngModel
+           name="key" id="searchName" class="form-control mr-sm-2" placeholder="Search deliveries..." required>
+       </form>
+    </div>
+  </nav>
+  <div class="onroad-orders" id="deliveries-container">
+    <table>
+      <tr><th>Product Name</th><th>Customer Name</th><th>Customer Phone</th><th>Product Category</th><th>Product Delivery Location</th>
+        <th>Supplier's Name</th><th>Supplier's Email</th><th>Supplier's Phone</th> <th></th>
+      </tr>
+      <tr *ngFor= "let delivery of deliveries" ng-mousemove="getItemId(delivery?.productId)">
+        <td>{{delivery?.productName}}</td><td>{{delivery?.customerName}}</td><td>{{delivery?.customerPhone}}</td><td>{{delivery?.productCategory}}</td>
+        <td>{{delivery?.productDeliveryLocation}}</td><td>{{delivery?.supplierName}}</td><td>{{delivery?.supplierEmail}}</td><td>{{delivery?.supplierPhone}}</td>
+        <td> <a (click)="onDeleteDelivery(delivery?.id, delivery)" style="background-color: transparent; border: 0px;" class="btn btn-secondary tooltips" data-placement="top" data-original-title="Delete"><mat-icon>delete_sweep</mat-icon></a></td>
+      </tr>
+    </table>
+
+
+  <!-- Notification for no deliveries -->
+  <div *ngIf="deliveries?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
+    <div class="alert alert-info" role="alert">
+      <h4 class="alert-heading">NO ACTIVE DELIVERIES!</h4>
+      <p>No on-going active deliveries were found.</p>
+    </div>
+    </div>
+  </div>
+
+   <!-- Delete Modal
+   <div class="modal fade" id="deleteDeliveryModal" tabindex="-1" role="dialog" aria-labelledby="deleteModelLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title" id="deleteModelLabel">Delete delivery for {{deleteDeliveries?.productName}}</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+             </button>
+          </div>
+          <div class="modal-body">
+             <p>Are you sure you want to delete delivery for {{deleteDeliveries?.productName}} ?</p>
+             <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button (click)="onDeleteDelivery" class="btn btn-danger" data-dismiss="modal">Yes</button>
+             </div>
+          </div>
+       </div>
+    </div>
+  </div> -->
+
+
+
+</div>
+    <app-footer></app-footer>
+

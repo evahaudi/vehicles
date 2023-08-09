@@ -1,0 +1,232 @@
+<div class="holder">
+  <aside class="left-sidebar">
+    <!-- Sidebar scroll-->
+    <div class="scroll-sidebar">
+        <!-- Sidebar navigation-->
+        <nav class="sidebar-nav">
+            <ul id="sidebarnav">
+                <li>
+                    <a routerLink="{{routes.GARAGE_HOME}}" routerLinkActive="active" class="waves-effect"><i class="fa fa-delicious m-r-10" aria-hidden="true"></i>Dashboard</a>
+                </li>
+                <li>
+                    <a routerLink="{{routes.GARAGE_PROFILE}}" routerLinkActive="active" class="waves-effect"><i class="fa fa-user m-r-10" aria-hidden="true"></i>Profile</a>
+                </li>
+                <li>
+                    <a routerLink="{{routes.GARAGE_ACTIVE_SERVICES}}" routerLinkActive="active" class="waves-effect"><i class="fa fa-table m-r-10" aria-hidden="true"></i>Active Services</a>
+                </li>
+                <li>
+                    <a routerLink="{{routes.GARAGE_REVIEW_PAGE}}" routerLinkActive="active" class="waves-effect"><i class="fa fa-gratipay m-r-10" aria-hidden="true"></i>Reviews</a>
+                </li>
+                <li>
+                    <a href="https://www.google.com/maps/@-0.4871896,37.1151359,15z" routerLinkActive="active" class="waves-effect"><i class="fa fa-globe m-r-10" aria-hidden="true"></i>Google Map</a>
+                </li>
+                <li>
+                    <a routerLink="{{routes.MANAGE_USER_REQUESTS}}" routerLinkActive="active" class="waves-effect"><i class="fa fa-clock-o m-r-10" aria-hidden="true"></i>Manage Requests</a>
+                </li>
+                <li>
+                    <a href="pages-error-404.html" class="waves-effect"><i class="fa fa-info-circle m-r-10" aria-hidden="true"></i>Error 404</a>
+                </li>
+                <li>
+                  <a href="pages-error-404.html" class="waves-effect"><i class="fa fa-sign-out m-r-10" aria-hidden="true"></i>Sign Out</a>
+              </li>
+
+            </ul>
+        </nav>
+        <!-- End Sidebar navigation -->
+    </div>
+    <!-- End Sidebar scroll-->
+</aside>
+
+
+<mat-toolbar class="page-header" role="heading">
+  <h1>Manage Mechanic Requests</h1>
+</mat-toolbar>
+
+<!-- Active requests -->
+<div class="active-deliveries" style="margin-top: 0;">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom: .1em;">
+    <a class="navbar-brand"  routerLink="{{routes.GARAGE_HOME}}" routerLinkActive="active" style="color:white;">Active Mechanic Orders & Deliveries</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor02">
+       <ul class="navbar-nav mr-auto">
+       </ul>
+       <form class="form-inline my-2 my-lg-0">
+          <input type="search" (ngModelChange)="searchRequests(key.value)" #key="ngModel"  ngModel
+           name="key" id="searchName" class="form-control mr-sm-2" placeholder="Search requests.." required>
+       </form>
+    </div>
+  </nav>
+
+  <div class="onroad-orders" id="deliveries-container" id="main-container">
+    <table >
+      <tr *ngFor= "let service of serviceRequests" ng-mousemove="getItemId(service?.id)"  >
+
+        <td *ngIf="service.requestedUserName === user"> <a (click)="onDeleteRequest(service?.id, service)" style="background-color: transparent; border: 0px;" class="btn btn-secondary tooltips" data-placement="top" data-original-title="Delete"><mat-icon>delete_sweep</mat-icon></a></td>
+      </tr>
+    </table>
+
+    <table style="margin-left: 0;">
+      <caption> Stranded user requests</caption>
+      <tr><th>User Name</th><th>User Phone</th><th>Your Email</th> <th>Requested Service</th><th>Your Location</th><th>User Location</th>
+        <th>Status</th> <th>Service Charges (Ksh.)</th> <th></th>
+      </tr>
+      <tr *ngFor= "let service of serviceRequests" ng-mousemove="getItemId(service?.id)"  >
+        <td *ngIf="service.requestedGarageEmail === mechanic">{{service?.requestedUserName}}</td>
+        <td *ngIf="service.requestedGarageEmail === mechanic">{{service?.requestedUserPhone}}</td>
+        <td *ngIf="service.requestedGarageEmail === mechanic">{{service?.requestedGarageEmail}}</td>
+        <td *ngIf="service.requestedGarageEmail === mechanic">{{service?.requestedUserRequestedService}}</td>
+        <td *ngIf="service.requestedGarageEmail === mechanic">{{service?.requestedGarageLocation}}</td>
+        <td *ngIf="service.requestedGarageEmail === mechanic">{{service?.requestedUserLocation}}</td>
+        <td *ngIf="service.requestedGarageEmail === mechanic">{{service?.serviceStatus}}</td>
+        <td *ngIf="service.requestedGarageEmail === mechanic">{{service?.requestedServiceCharges}}</td>
+        <td *ngIf="service.requestedGarageEmail === mechanic && (service.serviceStatus === 'Accepted')"> <a (click)="onOpenConfirmModal(service, 'confirm')" class="btn btn-primary tooltips" data-placement="top" data-original-title="Edit" style="background-color: transparent; border: 0px;" class="btn btn-secondary tooltips" data-placement="top" data-original-title="Delete"><mat-icon style="color: darkblue;" >view_headline</mat-icon></a></td>
+        <td *ngIf="service.requestedGarageEmail === mechanic && (service.serviceStatus === 'requested')" style="color: brown; font-size: smaller;" ><b>Pending Appoval</b></td>
+        <td *ngIf="service.requestedGarageEmail === mechanic && (service.serviceStatus === 'Confirmed')"> <a (click)="onOpenConfirmModal(service, 'arrived')" class="btn btn-primary tooltips" data-placement="top" data-original-title="Edit" style="background-color: transparent; border: 0px;" class="btn btn-secondary tooltips" data-placement="top" data-original-title="Delete"><mat-icon style="color: greenyellow;">bubble_chart</mat-icon></a></td>
+        <td *ngIf="service.requestedGarageEmail === mechanic && (service.serviceStatus === 'Arrived')"> <a (click)="onOpenConfirmModal(service, 'payed')" class="btn btn-primary tooltips" data-placement="top" data-original-title="Edit" style="background-color: transparent; border: 0px;" class="btn btn-secondary tooltips" data-placement="top" data-original-title="Delete"><mat-icon style="color: darkolivegreen;"> money</mat-icon></a></td>
+        <td *ngIf="service.requestedGarageEmail === mechanic && (service.serviceStatus === 'Paid')"> <a (click)="onOpenConfirmModal(service, 'payed')" class="btn btn-primary tooltips" data-placement="top" data-original-title="Edit" style="background-color: transparent; border: 0px; font-size: small;" class="btn btn-secondary tooltips" data-placement="top" data-original-title="Delete" ><b style="color: navajowhite;">Await review</b></a></td>
+        <td *ngIf="service.requestedGarageEmail === mechanic && (service.serviceStatus === 'Completed')"> <a (click)="onOpenConfirmModal(service, 'payed')" class="btn btn-primary tooltips" data-placement="top" data-original-title="Edit" style="background-color: transparent; border: 0px; font-size: small;" class="btn btn-secondary tooltips" data-placement="top" data-original-title="Delete" ><b style="color: navy;">See reviews</b></a></td>
+        <td *ngIf="service.requestedGarageEmail === mechanic"> <a (click)="onDeleteRequest(service?.id, service)" style="background-color: transparent; border: 0px;" class="btn btn-secondary tooltips" data-placement="top" data-original-title="Delete"><mat-icon>delete_sweep</mat-icon></a></td>
+      </tr>
+    </table>
+
+
+  <!-- Add Service Modal -->
+<div class="modal fade" id="addServiceModal" tabindex="-1" role="dialog" aria-labelledby="addServiceModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+     <div class="modal-content">
+        <div class="modal-header">
+           <h5 class="modal-title" id="addServiceModalLabel">Send Mechanic Service Request</h5>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+           </button>
+        </div>
+        <div class="modal-body">
+           <p>Are you sure you want to send a request for garage services offerred by  <u>  company's name</u> located at <u>location</u>  ?</p>
+           <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+              <button  class="btn btn-danger" data-dismiss="modal">Yes</button>
+           </div>
+        </div>
+     </div>
+  </div>
+</div>
+
+  <!-- Confirm Service Modal -->
+  <div class="modal fade" id="confirmGarageServiceModal" tabindex="-1" role="dialog" aria-labelledby="confirmGarageServiceModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title" id="confirmGarageServiceModalLabel"> Confirmed Mechanic Service Request</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+             </button>
+          </div>
+          <div class="modal-body">
+            <p> <b> User Name:</b> {{confirmGarage?.requestedUserName}} </p>
+            <p> <b> User Phone:</b> {{confirmGarage?.requestedUserPhone}} </p>
+            <p> <b> User Location:</b> {{confirmGarage?.requestedUserLocation}} </p>
+            <p> <b> Your Location:</b> {{confirmGarage?.requestedGarageLocation}} </p>
+            <p> <b> Requested Service:</b> {{confirmGarage?.requestedUserRequestedService}} </p>
+            <p> <b> Waiting Time:</b> {{confirmGarage?.waitingTime}} minutes</p>
+            <p> <b> Service Charges:</b> ksh.{{confirmGarage?.requestedServiceCharges}} </p>
+            <hr>
+             <p>Congratulations!!! User <b>{{confirmGarage?.requestedUserName}}</b> has confirmed request for your <b> {{confirmGarage?.requestedUserRequestedService}}</b>!</p>
+             <p>Hurry go help a stranded customer. You have <b>{{confirmGarage?.waitingTime}}</b> minutes.</p>
+           <div class="modal-footer">
+            <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">Close</button>
+            <button data-dismiss="modal" class="btn btn-danger" style="background-color: cadetblue; border: 0;">Okay</button>
+         </div>
+          </div>
+       </div>
+    </div>
+  </div>
+
+  <!-- Confirm mechanic arrival-->
+  <div class="modal fade" id="confirmMechanicArrivalModal" tabindex="-1" role="dialog" aria-labelledby="confirmMechanicArrivalModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title" id="confirmMechanicArrivalModalLabel">Confirmed Mechanic Arrival</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+             </button>
+          </div>
+          <div class="modal-body">
+            <p> <b> User Name:</b> {{confirmMechanic?.requestedUserName}} </p>
+            <p> <b> User Phone:</b> {{confirmMechanic?.requestedUserPhone}} </p>
+            <p> <b> User Location:</b> {{confirmMechanic?.requestedUserLocation}} </p>
+            <p> <b> Requested Service:</b> {{confirmMechanic?.requestedUserRequestedService}} </p>
+            <p> <b> Service Charges:</b> ksh.{{confirmMechanic?.requestedServiceCharges}} </p>
+            <p>{{confirmMechanic?.serviceStatus}}</p>
+            <hr>
+             <p>Olá we appreciate you honouring your promise. User has confirmed your arrival!!!! Good luck offering
+               <b>{{confirmMechanic?.requestedUserRequestedService}}</b> services.</p>
+           <div class="modal-footer">
+            <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">Close</button>
+            <button  data-dismiss="modal" class="btn btn-danger" style="background-color: cadetblue; border: 0;">Thank You!</button>
+         </div>
+          </div>
+       </div>
+    </div>
+  </div>
+
+  <!-- Payment -->
+  <div class="modal fade" id="confirmPaymentModal" tabindex="-1" role="dialog" aria-labelledby="confirmPaymentModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+       <div class="modal-content">
+          <div class="modal-header">
+             <h5 class="modal-title" id="confirmPaymentModalLabel">Confirm {{confirmPayment?.requestedUserName}} has made payment</h5>
+             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+             </button>
+          </div>
+          <div class="modal-body">
+            <p> <b> User Name:</b> {{confirmPayment?.requestedUserName}} </p>
+            <p> <b> User Phone:</b> {{confirmPayment?.requestedUserPhone}} </p>
+            <p> <b> User Location:</b> {{confirmPayment?.requestedUserLocation}} </p>
+            <p> <b> Requested Service:</b> {{confirmPayment?.requestedUserRequestedService}} </p>
+            <p> <b> Service Charges:</b> ksh.{{confirmPayment?.requestedServiceCharges}} </p>
+            <p>{{confirmPayment?.serviceStatus}}</p>
+            <hr>
+             <p>Confirm that {{confirmPayment?.requestedUserName}} has made payment of <b> ksh.{{confirmPayment?.requestedServiceCharges}}</b> for the <b> {{confirmPayment?.requestedUserRequestedService}} </b> services. </p>
+             <form #editPaymentForm="ngForm">
+              <input type="hidden" ngModel="{{confirmPayment?.id}}" name="id" class="form-control" id="id" placeholder="Id">
+              <input type="hidden" ngModel="{{confirmPayment?.serviceStatusCode}}" name="serviceStatusCode" class="form-control" id="serviceStatusCode" placeholder="Service Code">
+              <input type="hidden" ngModel="{{confirmPayment?.requestedUserImageURL}}" name="requestedUserImageURL" class="form-control" id="requestedUserImageURL" placeholder="Image URL">
+              <input type="hidden" ngModel="{{confirmPayment?.requestedUserCode}}" name="requestedUserCode" class="form-control" id="requestedUserCode" placeholder="User Code">
+              <input type="hidden" ngModel="{{confirmPayment?.requestedGarageName}}" name="requestedGarageName" class="form-control" id="requestedGarageName" placeholder="Garage Name">
+              <input type="hidden" ngModel="{{confirmPayment?.requestedGarageLocation}}" name="requestedGarageLocation" class="form-control" id="requestedGarageLocation" placeholder="Garage location">
+              <input type="hidden" ngModel="{{confirmPayment?.requestedGaragePhone}}" name="requestedGaragePhone" class="form-control" id="requestedGaragePhone" placeholder="Garage Phone">
+              <input type="hidden" ngModel="{{confirmPayment?.requestedGarageEmail}}" name="requestedGarageEmail" class="form-control" id="requestedGarageEmail" placeholder="garage Email">
+              <input type="hidden" ngModel="{{confirmPayment?.requestedGarageOwnerName}}" name="requestedGarageOwnerName" class="form-control" id="requestedGarageOwnerName" placeholder="Garage Owner Name">
+              <input type="hidden" ngModel="{{confirmPayment?.requestedGarageLogoImageURL}}" name="requestedGarageLogoImageURL" class="form-control" id="requestedGarageLogoImageURL" placeholder="Garage Logo">
+              <input type="hidden" ngModel="{{confirmPayment?.requestedGarageCode}}" name="requestedGarageCode" class="form-control" id="requestedGarageCode" placeholder="Garage Code">
+              <input type="hidden" ngModel="Completed" name="serviceStatus" class="form-control" id="serviceStatus" placeholder="Status">
+              <input type="hidden" ngModel="{{confirmPayment?.requestedUserPhone}}" name="requestedUserPhone" class="form-control" id="requestedUserPhone" placeholder="Requested User Phone">
+              <input type="hidden" ngModel="{{confirmPayment?.requestedUserLocation}}" name="requestedUserLocation" class="form-control" id="requestedUserLocation" placeholder="Requested User Location">
+              <input type="hidden" ngModel="{{confirmPayment?.requestedUserRequestedService}}" name="requestedUserRequestedService" class="form-control" id="requestedUserRequestedService" placeholder="Requested User Requested Service">
+              <input type="hidden" ngModel="{{confirmPayment?.requestedUserName}}" name="requestedUserName" class="form-control" id="requestedUserName" placeholder="Requested User Name">
+              <input type="hidden" ngModel="{{confirmPayment?.requestedServiceCharges}}" name="requestedServiceCharges" class="form-control" id="requestedServiceCharges" placeholder="Requested Service Charges">
+              <input type="hidden" ngModel="{{confirmPayment?.waitingTime}}" name="waitingTime" class="form-control" id="waitingTime" placeholder="Waiting Time">
+              <div class="modal-footer">
+                 <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">Close</button>
+                 <button (click)="onConfirmPayment(editPaymentForm.value)" data-dismiss="modal" class="btn btn-danger" style="background-color: cadetblue; border: 0;">Confirm</button>
+              </div>
+           </form>
+          </div>
+       </div>
+    </div>
+  </div>
+
+  <!-- Notification for no deliveries -->
+  <div *ngIf="serviceRequests?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
+    <div class="alert alert-info" role="alert">
+      <h4 class="alert-heading">NO ACTIVE REQUESTS!</h4>
+      <p>No on-going active service requests were found.</p>
+    </div>
+    </div>
+  </div>
+</div>
+</div>
